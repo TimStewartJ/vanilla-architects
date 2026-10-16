@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "config/iris.properties"
-hash = "b13a28206ca7696449cc7add46564097792cec40cb0f330453be61bca6ccded7"
+hash = "bc86fafac67bad72ea9ed5f79dee2dd61a9a352ee159115342300ac850b1752d"
 
 [[files]]
 file = "mods/appleskin.pw.toml"
