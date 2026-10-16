@@ -20,9 +20,13 @@ concurrency:
 
 jobs:
   build:
-    name: Verify and package
+    name: Verify and package (${{ matrix.shader }})
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shader: [i-like-vanilla, complementary-reimagined, bliss-shader]
     env:
       GRADLE_USER_HOME: ${{ github.workspace }}/build/gradle-home
       VANILLA_ARCHITECTS_INSTANCE: ${{ github.workspace }}/build/instance
@@ -54,7 +58,7 @@ jobs:
           java-version: '25'
       - name: Prepare the released-jar smoke test
         run: |
-          python scripts/prepare_smoke.py build/harness
+          python scripts/prepare_smoke.py build/harness --shader '${{ matrix.shader }}'
           chmod +x build/harness/gradlew
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb libgl1 libgl1-mesa-dri libegl1 libegl-mesa0 mesa-utils
@@ -85,17 +89,19 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: runtime-evidence
+          name: runtime-evidence-${{ matrix.shader }}
           if-no-files-found: ignore
           path: |
             build/harness/build/prod-client-test-results/
             build/harness/build/client-test-runtime/
             build/harness/fabric/versions/26.3/run-prod-client-test/hs_err_pid*.log
             build/harness/fabric/versions/26.3/run-prod-client-test/crash-reports/
+            build/harness/fabric/versions/26.3/run-prod-client-test/config/DistantHorizons.toml
+            build/harness/fabric/versions/26.3/run-prod-client-test/config/iris.properties
       - name: Ensure export did not change source locks
         run: git diff --exit-code
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
-        if: inputs.mightyarchitect_ref == ''
+        if: inputs.mightyarchitect_ref == '' && matrix.shader == 'i-like-vanilla'
         with:
           name: Vanilla-Architects
           path: dist/*

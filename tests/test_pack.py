@@ -3,6 +3,7 @@ import hashlib
 import json
 import sys
 import tempfile
+import tomllib
 import unittest
 import zipfile
 from pathlib import Path
@@ -104,6 +105,12 @@ class PackTests(unittest.TestCase):
                     "overrides/config/sodium-options.json",
                     '{"performance":{"use_no_error_g_l_context":false}}',
                 )
+                archive.writestr(
+                    "overrides/config/DistantHorizons.toml",
+                    '_version=5\n[client.advanced.autoUpdater]\nenableAutoUpdater=false\n'
+                    '[common.logging.warning]\nlogGarbageCollectorWarning=true\n'
+                    'showGarbageCollectorWarning=false\n',
+                )
             verify_archive(path, self.pack, [self.lock])
             normalize_archive(path)
             first = path.read_bytes()
@@ -115,6 +122,19 @@ class PackTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         settings = json.loads((root / "config" / "sodium-options.json").read_text())
         self.assertEqual(settings, {"performance": {"use_no_error_g_l_context": False}})
+
+    def test_dh_compatibility_settings_keep_diagnostics_and_pinned_updates(self):
+        root = Path(__file__).resolve().parents[1]
+        with (root / "config" / "DistantHorizons.toml").open("rb") as source:
+            settings = tomllib.load(source)
+        self.assertEqual(settings, {
+            "_version": 5,
+            "client": {"advanced": {"autoUpdater": {"enableAutoUpdater": False}}},
+            "common": {"logging": {"warning": {
+                "logGarbageCollectorWarning": True,
+                "showGarbageCollectorWarning": False,
+            }}},
+        })
 
 
 if __name__ == "__main__":

@@ -19,6 +19,7 @@ MODS = {
 }
 SHADERS = {"bliss-shader", "complementary-reimagined", "i-like-vanilla"}
 OVERRIDES = {
+    "overrides/config/DistantHorizons.toml",
     "overrides/config/iris.properties",
     "overrides/config/sodium-options.json",
 }
@@ -164,6 +165,16 @@ def verify_archive(archive_path: Path, pack: dict, locks: list[LockedFile]) -> d
         sodium = json.loads(archive.read("overrides/config/sodium-options.json"))
         if sodium.get("performance", {}).get("use_no_error_g_l_context") is not False:
             raise ValueError("Sodium's no-error GL context must be disabled for Iris compatibility")
+        dh = tomllib.loads(archive.read("overrides/config/DistantHorizons.toml").decode("utf-8"))
+        warning = dh.get("common", {}).get("logging", {}).get("warning", {})
+        updater = dh.get("client", {}).get("advanced", {}).get("autoUpdater", {})
+        if (
+            dh.get("_version") != 5
+            or warning.get("logGarbageCollectorWarning") is not True
+            or warning.get("showGarbageCollectorWarning") is not False
+            or updater.get("enableAutoUpdater") is not False
+        ):
+            raise ValueError("DH must retain GC diagnostics in logs, avoid the broken popup and keep updates pinned")
     return manifest
 
 

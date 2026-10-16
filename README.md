@@ -75,6 +75,12 @@ documented Iris/Sodium/Mesa shader-startup crash
 ([IrisShaders/Iris#3367](https://github.com/IrisShaders/Iris/issues/3367)).
 Do not re-enable it while using this pinned rendering stack.
 
+DH's optional garbage-collector advice popup is off: DH 3.3.4 can try to bake
+its text inside an active Iris render pass. The same advice remains enabled in
+the log, and real rendering exceptions still fail CI. Its built-in updater is
+also off so it cannot replace the pack's pinned jar. If changing JVM options,
+ZGC is DH's recommended collector on Java 25.
+
 Other mod settings are left at their upstream defaults. Start with a normal
 render distance around 12 chunks, then adjust Distant Horizons and shader
 quality to your hardware. LOD generation uses background CPU and disk space;
@@ -119,11 +125,12 @@ The output is `dist\Vanilla-Architects-0.1.0.mrpack` plus a SHA-512 file.
 required dependencies, Fabric metadata and the shader archives.
 
 CI also reuses Mighty Architectury's pinned production-client harness on
-26.3 only. It loads the exact released pack jars into a real client, joins a
-disposable test server, exercises the existing builder checks and enables
-I Like Vanilla for the run. The test companion is never included in the pack.
-Screenshots and logs are kept in the `runtime-evidence` CI artifact. The other
-two shaders are integrity-checked, not visually benchmarked.
+26.3 only, once for each included shader. It loads the exact pack jars into a
+real client, joins a disposable test server, exercises the existing builder
+checks and confirms the selected shader is active. The test companion is never
+included in the pack. Screenshots and logs are kept in the per-shader
+`runtime-evidence-*` CI artifacts. These are compatibility checks, not FPS
+benchmarks.
 Only the test fixture skips BuildPrint's first-run tour; the exported pack
 keeps it.
 

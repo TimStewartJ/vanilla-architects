@@ -2,17 +2,24 @@ import argparse
 import os
 import re
 import shutil
-import tomllib
 from pathlib import Path
+
+from verify_pack import SHADERS, read_toml, safe_path
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("harness", type=Path)
+    parser.add_argument("--shader", choices=sorted(SHADERS), default="i-like-vanilla")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    with (root / "pack.toml").open("rb") as source:
-        pack = tomllib.load(source)
+    pack = read_toml(root / "pack.toml")
+    shader = read_toml(root / "shaderpacks" / f"{args.shader}.pw.toml")
+    filename = safe_path(shader["filename"])
+    if "/" in filename or "\n" in filename or "\r" in filename:
+        raise ValueError("Smoke shader must be a single filename")
+    instance = Path(os.environ["VANILLA_ARCHITECTS_INSTANCE"])
+    (instance / "smoke-shader.txt").write_text(filename, encoding="utf-8")
     properties = args.harness / "versions" / "26.3" / "gradle.properties"
     text, count = re.subn(
         r"(?m)^fabric_loader_version=.*$",

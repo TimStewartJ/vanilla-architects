@@ -4,7 +4,7 @@ import re
 import zipfile
 from pathlib import Path
 
-from verify_pack import MODS
+from verify_pack import MODS, read_toml
 
 
 def main() -> None:
@@ -25,7 +25,8 @@ def main() -> None:
         pattern = rf"\b{re.escape(metadata['id'])}\s+{re.escape(metadata['version'])}(?:\s|$)"
         if not re.search(pattern, log, re.MULTILINE):
             raise ValueError(f"Jar not confirmed in runtime: {jar.name}")
-    if "Using shaderpack: I Like Vanilla v1.5.0b.zip" not in log:
+    shader = (root / "build" / "instance" / "smoke-shader.txt").read_text(encoding="utf-8")
+    if f"Using shaderpack: {shader}" not in log:
         raise ValueError("The selected shader was not confirmed active in the client log")
     for error in (
         "Mod appleskin provides a broken implementation of ModMenuApi",
@@ -33,7 +34,16 @@ def main() -> None:
     ):
         if error in log:
             raise ValueError(f"Runtime integration error: {error}")
-    print(f"Confirmed all {len(jars)} runtime mod versions and the active I Like Vanilla shader")
+    settings = read_toml(
+        args.harness / "fabric" / "versions" / "26.3" / "run-prod-client-test"
+        / "config" / "DistantHorizons.toml"
+    )
+    warning = settings["common"]["logging"]["warning"]
+    if warning["showGarbageCollectorWarning"] is not False or warning["logGarbageCollectorWarning"] is not True:
+        raise ValueError("DH did not retain the intended effective warning preferences")
+    if re.search(r"\[CHAT\].*Garbage collector detected", log):
+        raise ValueError("DH displayed the GC advice popup instead of keeping it in the log")
+    print(f"Confirmed all {len(jars)} runtime mod versions and active shader {shader}")
 
 
 if __name__ == "__main__":

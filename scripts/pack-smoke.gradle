@@ -1,6 +1,19 @@
 allprojects {
     afterEvaluate { project ->
         if (project.path == ":fabric:26.3") {
+            // Mojang's library mirror sometimes serves jsr305 without its Maven parent POM.
+            project.repositories.exclusiveContent {
+                forRepository {
+                    project.repositories.maven {
+                        name = "PackSmokeAnnotations"
+                        url = "https://repo.maven.apache.org/maven2"
+                    }
+                }
+                filter {
+                    includeModule("com.google.code.findbugs", "jsr305")
+                    includeModule("org.sonatype.oss", "oss-parent")
+                }
+            }
             tasks.named("runProductionClientTest") { task ->
                 def instance = new File(System.getenv("VANILLA_ARCHITECTS_INSTANCE"))
                 // Replace Loom's default mod set: test the released pack jars, not a rebuilt mod.
@@ -19,7 +32,9 @@ allprojects {
                         into task.runDir.dir("shaderpacks")
                     }
                     def iris = task.runDir.file("config/iris.properties").get().asFile
+                    def shader = new File(instance, "smoke-shader.txt").getText("UTF-8")
                     iris.text = iris.text.replace("enableShaders=false", "enableShaders=true")
+                        .replaceAll('(?m)^shaderPack=.*$', java.util.regex.Matcher.quoteReplacement("shaderPack=" + shader))
                     // Only the fixture skips the first-join tour that otherwise replaces test screens.
                     def onboarding = task.runDir.file("config/buildprint/config.json").get().asFile
                     onboarding.parentFile.mkdirs()
