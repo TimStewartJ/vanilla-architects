@@ -3,6 +3,13 @@
 A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
 building and distant landscapes. No new biomes, dimensions, ores or progression.
 
+> **Preview; release blocked on shader compatibility.** The complete pack passes
+> Mighty Architectury's production-client checks with shaders off. With
+> I Like Vanilla enabled, building-preview geometry in Mighty Architectury 2.1.0
+> crashes with `Missing elements in vertex` in `RecordedGeometry.replay`.
+> Keep shaders off while using Mighty Architectury until that incompatibility is
+> fixed and verified. No release has been published yet.
+
 ## Install in Prism or the Modrinth App
 
 Download `Vanilla-Architects-0.1.0.mrpack` from this private repository's
