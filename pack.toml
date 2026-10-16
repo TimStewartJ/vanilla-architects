@@ -1,0 +1,13 @@
+name = "Vanilla Architects"
+author = "TimStewartJ"
+version = "0.1.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "515b5689f8d653112ceaa573d887a14c8edbdb58da4d08dac136e611b353fe47"
+
+[versions]
+fabric = "0.19.5"
+minecraft = "26.3"

@@ -1,0 +1,13 @@
+.git/
+.github/
+.gitignore
+.packwizignore
+README.md
+LICENSE
+scripts/
+tests/
+build/
+dist/
+*.mrpack
+*.jar
+*.zip

@@ -1,0 +1,100 @@
+hash-format = "sha256"
+
+[[files]]
+file = "config/iris.properties"
+hash = "b13a28206ca7696449cc7add46564097792cec40cb0f330453be61bca6ccded7"
+
+[[files]]
+file = "mods/appleskin.pw.toml"
+hash = "44bec54be378e6fa88c8c06df63e84ca57011c13dededff98d03c36df5181902"
+metafile = true
+
+[[files]]
+file = "mods/buildprint.pw.toml"
+hash = "fd915f41cbd3c949e539760d418685ccbc06b6a9fcbec5521e5e19e6353e1230"
+metafile = true
+
+[[files]]
+file = "mods/distanthorizons.pw.toml"
+hash = "dd8049b57c04c865f57236f30a96330b8fb5a679b93e7021e3a1a0357f356144"
+metafile = true
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "56254ed84945ffb1c5038b5e7766a074fe828980c84d59656430c2a51d0df118"
+metafile = true
+
+[[files]]
+file = "mods/ferrite-core.pw.toml"
+hash = "86728cbc57c7646bb6d7d5838e65187e5335b319172e6dee8e78a455ffe02f40"
+metafile = true
+
+[[files]]
+file = "mods/iris.pw.toml"
+hash = "3af2426b8d83a5fcda1ff6de2035d53bcff532653c196f2ea6d7647995e45131"
+metafile = true
+
+[[files]]
+file = "mods/jade.pw.toml"
+hash = "2d47c7f24c1d2585769934d3ccadd240c48fc4c3bb2a878bb0787911e54452a3"
+metafile = true
+
+[[files]]
+file = "mods/lithium.pw.toml"
+hash = "bbb0195a99988cf5edaedd8c751c8db844e66c29d20d32b1d5977f93834e75ff"
+metafile = true
+
+[[files]]
+file = "mods/modmenu.pw.toml"
+hash = "cd05db76d670773ace1184abdd46126e7b7c75c2b70da82e1764cff9544c4269"
+metafile = true
+
+[[files]]
+file = "mods/mouse-tweaks.pw.toml"
+hash = "d9f809b321cdd117600e45f92215c8e750ed0b65641c18d394bb4c111019581d"
+metafile = true
+
+[[files]]
+file = "mods/placeholder-api.pw.toml"
+hash = "aa73c5c61a2e26d7c8aeafca23504f4e34e9d34238fffe4613b6f314dfd35776"
+metafile = true
+
+[[files]]
+file = "mods/shulkerboxtooltip.pw.toml"
+hash = "3175d0982a41d2137eb446b5e62daf504ff3d39a3638c0599aa2785dc75e8f52"
+metafile = true
+
+[[files]]
+file = "mods/sodium.pw.toml"
+hash = "54d699d9ba85bb08b9fd3696a11c7449ea1175a118805855143e1c88fa54aa6b"
+metafile = true
+
+[[files]]
+file = "mods/sorted.pw.toml"
+hash = "610c373f1f28bca69201f17fed67568f1c9676c9e19ee5c660f8411a142bbddd"
+metafile = true
+
+[[files]]
+file = "mods/the-mighty-architectury.pw.toml"
+hash = "cfe9b0e2d2222fc6b7cd57dcb17bc56a2541364851679c86ad90858f455949b8"
+metafile = true
+
+[[files]]
+file = "mods/yacl.pw.toml"
+hash = "2927b1f407d827809c1d1cf9e9622b9d27be0529427510662cd270a85db40bda"
+metafile = true
+
+[[files]]
+file = "shaderpacks/bliss-shader.pw.toml"
+hash = "8ffd81a5e0b4c3bc2daf0d86714ef56df4beb1ed87a5c41c4e9bbb94a7006bc1"
+metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-reimagined.pw.toml"
+hash = "75d1d2488a0c332a9a58af7e57f980a1b006c02b3a1c580fbd50443088e4eab0"
+metafile = true
+
+[[files]]
+file = "shaderpacks/i-like-vanilla.pw.toml"
+hash = "48c08db0619a6acef520439c96e96240d4920a07b93d8355678aded35f4417fb"
+metafile = true

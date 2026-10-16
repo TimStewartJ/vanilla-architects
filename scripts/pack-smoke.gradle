@@ -1,0 +1,26 @@
+allprojects {
+    afterEvaluate { project ->
+        if (project.path == ":fabric:26.3") {
+            tasks.named("runProductionClientTest") { task ->
+                def instance = new File(System.getenv("VANILLA_ARCHITECTS_INSTANCE"))
+                // Replace Loom's default mod set: test the released pack jars, not a rebuilt mod.
+                task.mods.setFrom(project.fileTree(new File(instance, "mods")) {
+                    include "*.jar"
+                })
+                task.mods.from(project.tasks.named("clientTestJar"))
+                task.doFirst {
+                    project.copy {
+                        from new File(instance, "config")
+                        into task.runDir.dir("config")
+                    }
+                    project.copy {
+                        from new File(instance, "shaderpacks")
+                        into task.runDir.dir("shaderpacks")
+                    }
+                    def iris = task.runDir.file("config/iris.properties").get().asFile
+                    iris.text = iris.text.replace("enableShaders=false", "enableShaders=true")
+                }
+            }
+        }
+    }
+}

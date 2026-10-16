@@ -1,0 +1,107 @@
+name: Build modpack
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pack-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Verify and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GRADLE_USER_HOME: ${{ runner.temp }}/vanilla-architects-gradle
+      VANILLA_ARCHITECTS_INSTANCE: ${{ github.workspace }}/build/instance
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: '1.26.x'
+          cache: false
+      - name: Install pinned packwiz
+        run: go install github.com/packwiz/packwiz@170b22d785959dda5876b54b7f16e1b807a57fb6
+      - name: Test validation failures
+        run: python -m unittest discover -s tests -v
+      - name: Build and verify every download
+        run: python scripts/build_pack.py --download --install-dir build/instance
+      - name: Check out the existing production-client harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: TimStewartJ/TheMightyArchitectury
+          ref: 23a4ab727a86d97742d9d5f1fba25d7bd9d3aa2e
+          path: build/harness
+          persist-credentials: false
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Prepare the released-jar smoke test
+        run: |
+          python scripts/prepare_smoke.py build/harness
+          chmod +x build/harness/gradlew
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb libgl1 libgl1-mesa-dri libegl1 libegl-mesa0 mesa-utils
+      - name: Production world, builder and shader smoke
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+          SDL_VIDEO_FORCE_EGL: '1'
+          ALSOFT_DRIVERS: 'null'
+        run: |
+          cd build/harness
+          xvfb-run -a -s "-screen 0 1280x720x24" \
+            pwsh -NoProfile -File scripts/run-client-test-matrix.ps1 \
+              -Mode prod -Versions 26.3 -Loaders fabric -Port 26743 \
+              -ClientTimeoutSeconds 900 -ClientStallSeconds 180
+      - name: Confirm the exact pack versions and active shader
+        run: python scripts/verify_runtime.py build/harness
+      - name: Upload runtime evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: runtime-evidence
+          if-no-files-found: ignore
+          path: |
+            build/harness/build/prod-client-test-results/
+            build/harness/build/client-test-runtime/
+      - name: Ensure export did not change source locks
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: Vanilla-Architects
+          path: dist/*
+          if-no-files-found: error
+
+  release:
+    name: Private GitHub release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Download verified build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download "$GITHUB_RUN_ID" --name Vanilla-Architects --dir dist
+      - name: Publish private release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          test -f "dist/Vanilla-Architects-$version.mrpack"
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --verify-tag --title "Vanilla Architects $version" \
+            --notes "Minecraft 26.3 Fabric. Import the .mrpack into Prism Launcher or the Modrinth App. Includes 16 mods, Distant Horizons, Iris and three selectable shader packs; shaders are off on first launch. See README.md for the full list and controls."
