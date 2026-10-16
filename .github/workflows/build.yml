@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      GRADLE_USER_HOME: ${{ runner.temp }}/vanilla-architects-gradle
+      GRADLE_USER_HOME: ${{ github.workspace }}/build/gradle-home
       VANILLA_ARCHITECTS_INSTANCE: ${{ github.workspace }}/build/instance
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
