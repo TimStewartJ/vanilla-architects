@@ -18,7 +18,10 @@ MODS = {
     "shulkerboxtooltip", "sodium", "sorted", "the-mighty-architectury", "yacl",
 }
 SHADERS = {"bliss-shader", "complementary-reimagined", "i-like-vanilla"}
-OVERRIDES = {"overrides/config/iris.properties"}
+OVERRIDES = {
+    "overrides/config/iris.properties",
+    "overrides/config/sodium-options.json",
+}
 
 
 @dataclass(frozen=True)
@@ -158,6 +161,9 @@ def verify_archive(archive_path: Path, pack: dict, locks: list[LockedFile]) -> d
         iris = archive.read("overrides/config/iris.properties").decode("utf-8")
         if "enableShaders=false" not in iris.splitlines():
             raise ValueError("Shaders must be disabled for the first launch")
+        sodium = json.loads(archive.read("overrides/config/sodium-options.json"))
+        if sodium.get("performance", {}).get("use_no_error_g_l_context") is not False:
+            raise ValueError("Sodium's no-error GL context must be disabled for Iris compatibility")
     return manifest
 
 
@@ -255,7 +261,9 @@ def download_and_verify(
             destination = install_dir / entry["path"]
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
-        config = install_dir / "config"
-        config.mkdir(exist_ok=True)
-        shutil.copyfile(root / "config" / "iris.properties", config / "iris.properties")
+        for override in sorted(OVERRIDES):
+            relative = PurePosixPath(override).relative_to("overrides")
+            destination = install_dir / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(root / relative, destination)
     print(f"Verified {len(MODS)} mods, {len(SHADERS)} shaders and all required dependencies")

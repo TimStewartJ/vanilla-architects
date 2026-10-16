@@ -100,12 +100,21 @@ class PackTests(unittest.TestCase):
                 archive.writestr("overrides/", b"")
                 archive.writestr("modrinth.index.json", json.dumps(self.manifest))
                 archive.writestr("overrides/config/iris.properties", "enableShaders=false\n")
+                archive.writestr(
+                    "overrides/config/sodium-options.json",
+                    '{"performance":{"use_no_error_g_l_context":false}}',
+                )
             verify_archive(path, self.pack, [self.lock])
             normalize_archive(path)
             first = path.read_bytes()
             verify_archive(path, self.pack, [self.lock])
             normalize_archive(path)
             self.assertEqual(first, path.read_bytes())
+
+    def test_sodium_compatibility_setting_keeps_its_literal_shape(self):
+        root = Path(__file__).resolve().parents[1]
+        settings = json.loads((root / "config" / "sodium-options.json").read_text())
+        self.assertEqual(settings, {"performance": {"use_no_error_g_l_context": False}})
 
 
 if __name__ == "__main__":

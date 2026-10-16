@@ -5,6 +5,10 @@ file = "config/iris.properties"
 hash = "bc86fafac67bad72ea9ed5f79dee2dd61a9a352ee159115342300ac850b1752d"
 
 [[files]]
+file = "config/sodium-options.json"
+hash = "535f2f0a496677258abe9d07df591df729a88bcd5f5db5bb54b36063102e10a0"
+
+[[files]]
 file = "mods/appleskin.pw.toml"
 hash = "44bec54be378e6fa88c8c06df63e84ca57011c13dededff98d03c36df5181902"
 metafile = true

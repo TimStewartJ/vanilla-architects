@@ -20,6 +20,10 @@ allprojects {
                     }
                     def iris = task.runDir.file("config/iris.properties").get().asFile
                     iris.text = iris.text.replace("enableShaders=false", "enableShaders=true")
+                    // Only the fixture skips the first-join tour that otherwise replaces test screens.
+                    def onboarding = task.runDir.file("config/buildprint/config.json").get().asFile
+                    onboarding.parentFile.mkdirs()
+                    onboarding.text = '{"onboardingComplete":true,"migrationPromptShown":true}'
                 }
             }
         }

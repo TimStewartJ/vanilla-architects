@@ -63,12 +63,20 @@ programs:
 them and choose one pack. Only one shader runs at a time. The vanilla-focused
 choice is preselected, but is not enabled automatically.
 
+Sodium's **Use No Error GL Context** optimization is disabled. This avoids the
+documented Iris/Sodium/Mesa shader-startup crash
+([IrisShaders/Iris#3367](https://github.com/IrisShaders/Iris/issues/3367)).
+Do not re-enable it while using this pinned rendering stack.
+
 Other mod settings are left at their upstream defaults. Start with a normal
 render distance around 12 chunks, then adjust Distant Horizons and shader
 quality to your hardware. LOD generation uses background CPU and disk space;
 terrain does not appear everywhere instantly.
 
 ## Survival building
+
+BuildPrint opens a walkthrough on the first world join. Complete it or press
+Esc; `/buildprint onboarding` opens it again later.
 
 1. Press **G** to design with Mighty Architectury and choose vanilla materials.
 2. Save the design as a schematic in the shared `schematics` folder.
@@ -109,6 +117,8 @@ disposable test server, exercises the existing builder checks and enables
 I Like Vanilla for the run. The test companion is never included in the pack.
 Screenshots and logs are kept in the `runtime-evidence` CI artifact. The other
 two shaders are integrity-checked, not visually benchmarked.
+Only the test fixture skips BuildPrint's first-run tour; the exported pack
+keeps it.
 
 To stage a clean installation for inspection, append
 `--install-dir build\instance`. The destination must be empty; the script
