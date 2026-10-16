@@ -11,8 +11,8 @@ Sign in to GitHub to access the private release.
 
 - **Prism Launcher:** Add Instance -> Import -> select the `.mrpack`.
 - **Modrinth App:** import the `.mrpack` as a new instance.
-- Use **Java 25**. Start with **6 GB** maximum memory; 4 GB is a lower-end
-  starting point, and large builds or distant terrain can need more.
+- Use **Java 25** and allocate **at least 4 GB**, preferably **6 GB** maximum
+  memory before the first launch. Large builds or distant terrain can need more.
 - Import into a **new instance**, not an existing world or another modpack.
 
 The archive contains pinned download links and hashes, not redistributed mod
@@ -42,9 +42,11 @@ All entries are the Fabric build for Minecraft 26.3.
 | YetAnotherConfigLib (YACL) | 3.9.7 | BuildPrint and Sorted configuration |
 | Mod Menu | 21.0.0 | Access mod configuration |
 | Text Placeholder API | 3.2.0 | Mod Menu dependency |
+| Cloth Config API | 26.3.159 | AppleSkin's Mod Menu settings integration |
 
-Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI, Cloth Config and
-Architectury API are not included. Neither are Create, AutoBuild or Litematica.
+Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI and Architectury API are not
+included. Neither are Create, AutoBuild or Litematica. Cloth Config stays only
+because AppleSkin's actual Mod Menu integration needs it.
 
 ### Shader choices
 

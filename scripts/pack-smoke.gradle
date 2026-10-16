@@ -8,6 +8,7 @@ allprojects {
                     include "*.jar"
                 })
                 task.mods.from(project.tasks.named("clientTestJar"))
+                task.jvmArgs.addAll("-Xms512m", "-Xmx4G")
                 task.doFirst {
                     project.copy {
                         from new File(instance, "config")

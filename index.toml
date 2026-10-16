@@ -15,6 +15,11 @@ hash = "fd915f41cbd3c949e539760d418685ccbc06b6a9fcbec5521e5e19e6353e1230"
 metafile = true
 
 [[files]]
+file = "mods/cloth-config.pw.toml"
+hash = "42474de57f315a572181b93729733545ac46919d6832121a75c52b4f9e40fb98"
+metafile = true
+
+[[files]]
 file = "mods/distanthorizons.pw.toml"
 hash = "dd8049b57c04c865f57236f30a96330b8fb5a679b93e7021e3a1a0357f356144"
 metafile = true

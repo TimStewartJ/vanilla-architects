@@ -4,6 +4,8 @@ import re
 import zipfile
 from pathlib import Path
 
+from verify_pack import MODS
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -14,7 +16,10 @@ def main() -> None:
         args.harness / "build" / "prod-client-test-results" / "26.3"
         / "fabric" / "client.log"
     ).read_text(encoding="utf-8")
-    for jar in sorted((root / "build" / "instance" / "mods").glob("*.jar")):
+    jars = sorted((root / "build" / "instance" / "mods").glob("*.jar"))
+    if len(jars) != len(MODS):
+        raise ValueError(f"Expected {len(MODS)} released jars, found {len(jars)}")
+    for jar in jars:
         with zipfile.ZipFile(jar) as archive:
             metadata = json.loads(archive.read("fabric.mod.json"))
         pattern = rf"\b{re.escape(metadata['id'])}\s+{re.escape(metadata['version'])}(?:\s|$)"
@@ -22,7 +27,13 @@ def main() -> None:
             raise ValueError(f"Released jar not confirmed in runtime: {jar.name}")
     if "Using shaderpack: I Like Vanilla v1.5.0b.zip" not in log:
         raise ValueError("The selected shader was not confirmed active in the client log")
-    print("Confirmed all 16 released mod versions and the active I Like Vanilla shader")
+    for error in (
+        "Mod appleskin provides a broken implementation of ModMenuApi",
+        "ran into an unexpected error running a GL call",
+    ):
+        if error in log:
+            raise ValueError(f"Runtime integration error: {error}")
+    print(f"Confirmed all {len(jars)} released mod versions and the active I Like Vanilla shader")
 
 
 if __name__ == "__main__":
