@@ -18,13 +18,13 @@ def main() -> None:
     ).read_text(encoding="utf-8")
     jars = sorted((root / "build" / "instance" / "mods").glob("*.jar"))
     if len(jars) != len(MODS):
-        raise ValueError(f"Expected {len(MODS)} released jars, found {len(jars)}")
+        raise ValueError(f"Expected {len(MODS)} runtime jars, found {len(jars)}")
     for jar in jars:
         with zipfile.ZipFile(jar) as archive:
             metadata = json.loads(archive.read("fabric.mod.json"))
         pattern = rf"\b{re.escape(metadata['id'])}\s+{re.escape(metadata['version'])}(?:\s|$)"
         if not re.search(pattern, log, re.MULTILINE):
-            raise ValueError(f"Released jar not confirmed in runtime: {jar.name}")
+            raise ValueError(f"Jar not confirmed in runtime: {jar.name}")
     if "Using shaderpack: I Like Vanilla v1.5.0b.zip" not in log:
         raise ValueError("The selected shader was not confirmed active in the client log")
     for error in (
@@ -33,7 +33,7 @@ def main() -> None:
     ):
         if error in log:
             raise ValueError(f"Runtime integration error: {error}")
-    print(f"Confirmed all {len(jars)} released mod versions and the active I Like Vanilla shader")
+    print(f"Confirmed all {len(jars)} runtime mod versions and the active I Like Vanilla shader")
 
 
 if __name__ == "__main__":

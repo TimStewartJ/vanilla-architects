@@ -5,12 +5,17 @@ on:
     branches: ['**']
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      mightyarchitect_ref:
+        description: Optional TMA commit/branch to test instead of the released jar; never publishes a pack
+        type: string
+        required: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: pack-${{ github.ref }}
+  group: pack-${{ github.ref }}-${{ inputs.mightyarchitect_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -40,7 +45,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: TimStewartJ/TheMightyArchitectury
-          ref: 23a4ab727a86d97742d9d5f1fba25d7bd9d3aa2e
+          ref: ${{ inputs.mightyarchitect_ref || '23a4ab727a86d97742d9d5f1fba25d7bd9d3aa2e' }}
           path: build/harness
           persist-credentials: false
       - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
@@ -53,6 +58,16 @@ jobs:
           chmod +x build/harness/gradlew
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb libgl1 libgl1-mesa-dri libegl1 libegl-mesa0 mesa-utils
+      - name: Test and build an explicitly selected TMA candidate
+        if: inputs.mightyarchitect_ref != ''
+        working-directory: build/harness
+        run: |
+          ./gradlew :fabric:26.3:test --tests com.timmie.mightyarchitect.test.unit.SuperByteBufferNormalsTest \
+            :fabric:26.3:jar --console=plain --no-daemon \
+            -Porg.gradle.java.installations.fromEnv=JAVA_HOME_25_X64
+      - name: Stage the candidate in the disposable test instance only
+        if: inputs.mightyarchitect_ref != ''
+        run: python scripts/stage_candidate.py build/harness
       - name: Production world, builder and shader smoke
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
@@ -80,6 +95,7 @@ jobs:
       - name: Ensure export did not change source locks
         run: git diff --exit-code
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: inputs.mightyarchitect_ref == ''
         with:
           name: Vanilla-Architects
           path: dist/*
@@ -87,7 +103,7 @@ jobs:
 
   release:
     name: Private GitHub release
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') && inputs.mightyarchitect_ref == ''
     needs: build
     runs-on: ubuntu-latest
     permissions:

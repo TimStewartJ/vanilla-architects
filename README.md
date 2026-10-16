@@ -127,6 +127,14 @@ two shaders are integrity-checked, not visually benchmarked.
 Only the test fixture skips BuildPrint's first-run tour; the exported pack
 keeps it.
 
+To verify an unmerged Mighty Architectury fix, manually run **Build modpack**
+and set `mightyarchitect_ref` to its exact commit. That run tests the renderer
+regressions and substitutes the newly built mod in the disposable runtime
+fixture only. It records the source commit and jar hash, does not upload an
+installable pack, and cannot publish a release. Normal builds and tags always
+test the actual Modrinth-pinned jar. The compatibility fix is being prepared in
+[TimStewartJ/TheMightyArchitectury#58](https://github.com/TimStewartJ/TheMightyArchitectury/pull/58).
+
 To stage a clean installation for inspection, append
 `--install-dir build\instance`. The destination must be empty; the script
 never overwrites an existing instance.
