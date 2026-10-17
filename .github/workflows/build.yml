@@ -49,7 +49,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: TimStewartJ/TheMightyArchitectury
-          ref: ${{ inputs.mightyarchitect_ref || '23a4ab727a86d97742d9d5f1fba25d7bd9d3aa2e' }}
+          ref: ${{ inputs.mightyarchitect_ref || '2eb5d967b452baf2f28f6bfc1fa05e13f9d642c1' }}
           path: build/harness
           persist-credentials: false
       - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6

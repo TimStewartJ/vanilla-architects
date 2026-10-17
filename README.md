@@ -3,12 +3,8 @@
 A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
 building and distant landscapes. No new biomes, dimensions, ores or progression.
 
-> **Preview; release blocked on shader compatibility.** The complete pack passes
-> Mighty Architectury's production-client checks with shaders off. With
-> I Like Vanilla enabled, building-preview geometry in Mighty Architectury 2.1.0
-> crashes with `Missing elements in vertex` in `RecordedGeometry.replay`.
-> Keep shaders off while using Mighty Architectury until that incompatibility is
-> fixed and verified. No release has been published yet.
+Mighty Architectury **2.1.1** includes the 26.x shader-compatibility fix. The pack
+uses the official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
@@ -33,7 +29,7 @@ All entries are the Fabric build for Minecraft 26.3.
 
 | Mod | Version | Purpose |
 | --- | --- | --- |
-| The Mighty Architectury | 2.1.0 | Design buildings and export schematics |
+| The Mighty Architectury | 2.1.1 | Design buildings and export schematics |
 | BuildPrint | 0.1.20 | Schematic previews, material lists and survival printing |
 | Sorted | 0.1.27 | Sorting, quick stack and BuildPrint chest-stock integration |
 | Jade | 26.3.5 | Block information |
@@ -139,7 +135,7 @@ and set `mightyarchitect_ref` to its exact commit. That run tests the renderer
 regressions and substitutes the newly built mod in the disposable runtime
 fixture only. It records the source commit and jar hash, does not upload an
 installable pack, and cannot publish a release. Normal builds and tags always
-test the actual Modrinth-pinned jar. The compatibility fix is being prepared in
+test the actual Modrinth-pinned jar. The compatibility fix was merged in
 [TimStewartJ/TheMightyArchitectury#58](https://github.com/TimStewartJ/TheMightyArchitectury/pull/58).
 
 To stage a clean installation for inspection, append

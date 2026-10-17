@@ -1,13 +1,13 @@
 name = "The Mighty Architectury"
-filename = "mightyarchitect-2.1.0+mc26.3-fabric.jar"
+filename = "mightyarchitect-2.1.1+mc26.3-fabric.jar"
 side = "client"
 
 [download]
-url = "https://cdn.modrinth.com/data/FDYDUHRw/versions/rjEVSfVK/mightyarchitect-2.1.0%2Bmc26.3-fabric.jar"
+url = "https://cdn.modrinth.com/data/FDYDUHRw/versions/gm0nKqt7/mightyarchitect-2.1.1%2Bmc26.3-fabric.jar"
 hash-format = "sha512"
-hash = "3bb3465a27846c9d76e49ba1c5e4049c42322c0dfdbd2e83760aadbeab790beaf40556974a861b81b316bf04a5047735206a750e8218e33643db4b30adf41c7a"
+hash = "137e889d2733d7f768cfeaf5cf9aa17ff0e071308df17fe69a3774854bf399a6416b3489ed68973403b853285f9ee7eac35545bc3799d34aa4f545ca7ea76401"
 
 [update]
 [update.modrinth]
 mod-id = "FDYDUHRw"
-version = "rjEVSfVK"
+version = "gm0nKqt7"
