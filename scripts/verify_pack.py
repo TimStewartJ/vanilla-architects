@@ -13,9 +13,11 @@ from pathlib import Path, PurePosixPath
 
 USER_AGENT = "VanillaArchitects/0.1 (github.com/TimStewartJ/vanilla-architects)"
 MODS = {
-    "appleskin", "buildprint", "cloth-config", "distanthorizons", "fabric-api", "ferrite-core",
-    "iris", "jade", "lithium", "modmenu", "mouse-tweaks", "placeholder-api",
-    "shulkerboxtooltip", "sodium", "sorted", "the-mighty-architectury", "yacl",
+    "appleskin", "buildprint", "cloth-config", "continuity", "distanthorizons",
+    "fabric-api", "fallingleaves", "ferrite-core", "iris", "jade", "lambdynamiclights",
+    "lithium", "modmenu", "mouse-tweaks", "placeholder-api", "presence-footsteps",
+    "shulkerboxtooltip", "sodium", "sorted", "spyglass-improvements",
+    "the-mighty-architectury", "yacl",
 }
 SHADERS = {"bliss-shader", "complementary-reimagined", "i-like-vanilla"}
 OVERRIDES = {

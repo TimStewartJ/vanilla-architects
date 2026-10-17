@@ -8,7 +8,7 @@ uses the official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.1.1.mrpack` from this private repository's
+Download `Vanilla-Architects-0.2.0.mrpack` from this private repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 Sign in to GitHub to access the private release.
 
@@ -36,6 +36,11 @@ All entries are the Fabric build for Minecraft 26.3.
 | AppleSkin | 3.0.10 | Hunger and saturation information |
 | Mouse Tweaks | 2.31 | Easier stack movement |
 | Shulker Box Tooltip | 5.4.2 | Preview building supplies |
+| Continuity | 3.0.1 | Connected textures for glass and other building materials |
+| Presence Footsteps | 1.14.0 | Material-specific walking sounds |
+| Spyglass Improvements | 1.6 | Adjustable spyglass zoom and quick access |
+| Falling Leaves | 2.0.8 | Configurable falling-leaf particles |
+| LambDynamicLights | 4.13.0 | Dynamic lighting from carried items and other light sources |
 | Sodium | 0.9.2 | Rendering performance |
 | Lithium | 0.26.2 | Game-logic optimization |
 | FerriteCore | 9.0.0 | Lower memory usage |
@@ -51,6 +56,10 @@ Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI and Architectury API are no
 included. Neither are Create, AutoBuild or Litematica. Cloth Config stays only
 because AppleSkin's actual Mod Menu integration needs it.
 
+**0.2.0 adds the five atmosphere/building-convenience mods above.** All existing
+mod and shader versions from 0.1.1 are retained. This is still a client-only pack
+with no new world content or progression.
+
 ### Shader choices
 
 All three are included as selectable shader packs, with Distant Horizons
@@ -65,6 +74,11 @@ programs:
 **Shaders are off on first launch.** In Video Settings -> Shader Packs, enable
 them and choose one pack. Only one shader runs at a time. The vanilla-focused
 choice is preselected, but is not enabled automatically.
+
+Continuity includes connected-texture and glass-pane resource packs, available
+under Resource Packs. LambDynamicLights provides lighting without a shader
+pack; if a shader already supplies hand lighting, avoid enabling duplicate
+hand-light effects.
 
 Sodium's **Use No Error GL Context** optimization is disabled. This avoids the
 documented Iris/Sodium/Mesa shader-startup crash
@@ -116,7 +130,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.1.1.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.2.0.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 

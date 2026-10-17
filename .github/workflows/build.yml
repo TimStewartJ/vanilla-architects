@@ -129,4 +129,4 @@ jobs:
           test -f "dist/Vanilla-Architects-$version.mrpack"
           gh release create "$GITHUB_REF_NAME" dist/* \
             --verify-tag --title "Vanilla Architects $version" \
-            --notes "Minecraft 26.3 Fabric. Import the .mrpack into Prism Launcher or the Modrinth App. Includes 17 mods with Distant Horizons and Iris, plus three selectable shader packs; shaders are off on first launch. Allocate at least 4 GB RAM, preferably 6 GB. See README.md for the full list and controls."
+            --notes "Minecraft 26.3 Fabric. Import the .mrpack into Prism Launcher or the Modrinth App. Includes 22 mods with Mighty Architectury, BuildPrint, Distant Horizons and Iris, plus three selectable shader packs. Adds Continuity, Presence Footsteps, Spyglass Improvements, Falling Leaves and LambDynamicLights; all prior mod/shader versions retained. Shaders are off on first launch. Allocate at least 4 GB RAM, preferably 6 GB. See README.md for the full list and controls."

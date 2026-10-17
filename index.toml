@@ -28,6 +28,11 @@ hash = "42474de57f315a572181b93729733545ac46919d6832121a75c52b4f9e40fb98"
 metafile = true
 
 [[files]]
+file = "mods/continuity.pw.toml"
+hash = "aad07f6496bbf478116eaa0e82fa7fbdd022ca755b392029193e1090d76716b3"
+metafile = true
+
+[[files]]
 file = "mods/distanthorizons.pw.toml"
 hash = "dd8049b57c04c865f57236f30a96330b8fb5a679b93e7021e3a1a0357f356144"
 metafile = true
@@ -35,6 +40,11 @@ metafile = true
 [[files]]
 file = "mods/fabric-api.pw.toml"
 hash = "56254ed84945ffb1c5038b5e7766a074fe828980c84d59656430c2a51d0df118"
+metafile = true
+
+[[files]]
+file = "mods/fallingleaves.pw.toml"
+hash = "58d5cb5d3361d35f10eb65b5e2801cdbfbb0d8ec522982a6ae68f5d335ee9e06"
 metafile = true
 
 [[files]]
@@ -50,6 +60,11 @@ metafile = true
 [[files]]
 file = "mods/jade.pw.toml"
 hash = "2d47c7f24c1d2585769934d3ccadd240c48fc4c3bb2a878bb0787911e54452a3"
+metafile = true
+
+[[files]]
+file = "mods/lambdynamiclights.pw.toml"
+hash = "1bcd8fa2d0c2c3390361736420236c2a5331002ae36bb5cba5a062b8708b5ee9"
 metafile = true
 
 [[files]]
@@ -73,6 +88,11 @@ hash = "aa73c5c61a2e26d7c8aeafca23504f4e34e9d34238fffe4613b6f314dfd35776"
 metafile = true
 
 [[files]]
+file = "mods/presence-footsteps.pw.toml"
+hash = "279d7c9d5c8f3c2ba00181c7be8b4de3d6f51174301cb9eff632db1cb34a5477"
+metafile = true
+
+[[files]]
 file = "mods/shulkerboxtooltip.pw.toml"
 hash = "3175d0982a41d2137eb446b5e62daf504ff3d39a3638c0599aa2785dc75e8f52"
 metafile = true
@@ -85,6 +105,11 @@ metafile = true
 [[files]]
 file = "mods/sorted.pw.toml"
 hash = "610c373f1f28bca69201f17fed67568f1c9676c9e19ee5c660f8411a142bbddd"
+metafile = true
+
+[[files]]
+file = "mods/spyglass-improvements.pw.toml"
+hash = "0c4689451f38e9093f3139b8b25f5309ae8b5e2141e3b107bee45898048d819e"
 metafile = true
 
 [[files]]
