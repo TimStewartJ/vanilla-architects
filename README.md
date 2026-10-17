@@ -8,7 +8,7 @@ uses the official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.1.0.mrpack` from this private repository's
+Download `Vanilla-Architects-0.1.1.mrpack` from this private repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 Sign in to GitHub to access the private release.
 
@@ -116,7 +116,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.1.0.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.1.1.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
