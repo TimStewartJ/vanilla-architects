@@ -72,6 +72,10 @@ jobs:
       - name: Stage the candidate in the disposable test instance only
         if: inputs.mightyarchitect_ref != ''
         run: python scripts/stage_candidate.py build/harness
+      - name: Dedicated-server gameplay-mod loading smoke
+        if: matrix.shader == 'i-like-vanilla'
+        working-directory: build/harness
+        run: pwsh -NoProfile -File scripts/run-server-test-matrix.ps1 -Versions 26.3 -Loaders fabric
       - name: Production world, builder and shader smoke
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
@@ -93,6 +97,7 @@ jobs:
           if-no-files-found: ignore
           path: |
             build/harness/build/prod-client-test-results/
+            build/harness/build/server-test-results/
             build/harness/build/client-test-runtime/
             build/harness/fabric/versions/26.3/run-prod-client-test/hs_err_pid*.log
             build/harness/fabric/versions/26.3/run-prod-client-test/crash-reports/
@@ -129,4 +134,4 @@ jobs:
           test -f "dist/Vanilla-Architects-$version.mrpack"
           gh release create "$GITHUB_REF_NAME" dist/* \
             --verify-tag --title "Vanilla Architects $version" \
-            --notes "Minecraft 26.3 Fabric. Import the .mrpack into Prism Launcher or the Modrinth App. Includes 22 mods with Mighty Architectury, BuildPrint, Distant Horizons and Iris, plus three selectable shader packs. Adds Continuity, Presence Footsteps, Spyglass Improvements, Falling Leaves and LambDynamicLights; all prior mod/shader versions retained. Shaders are off on first launch. Allocate at least 4 GB RAM, preferably 6 GB. See README.md for the full list and controls."
+            --notes "Minecraft 26.3 Fabric. Import the .mrpack into Prism Launcher or the Modrinth App. Includes 24 mods and three selectable shader packs. Adds Tax Free Levels and Grind Enchantments with upstream defaults; all previous mod/shader versions retained. Gameplay changes work in single-player and on a LAN host running the pack. Dedicated servers need both gameplay mods, Fabric API and Cloth Config. Shaders are off on first launch. Allocate at least 4 GB RAM, preferably 6 GB. See README.md for details."

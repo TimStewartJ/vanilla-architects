@@ -1,14 +1,15 @@
 # Vanilla Architects
 
 A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
-building and distant landscapes. No new biomes, dimensions, ores or progression.
+building and distant landscapes, with small enchanting/XP conveniences.
+No new biomes, dimensions or ores.
 
 Mighty Architectury **2.1.1** includes the 26.x shader-compatibility fix. The pack
 uses the official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.2.0.mrpack` from this private repository's
+Download `Vanilla-Architects-0.3.0.mrpack` from this private repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 Sign in to GitHub to access the private release.
 
@@ -41,6 +42,8 @@ All entries are the Fabric build for Minecraft 26.3.
 | Spyglass Improvements | 1.6 | Adjustable spyglass zoom and quick access |
 | Falling Leaves | 2.0.8 | Configurable falling-leaf particles |
 | LambDynamicLights | 4.13.0 | Dynamic lighting from carried items and other light sources |
+| Tax Free Levels | 1.5.4 | Predictable XP costs and no default "Too Expensive!" anvil limit |
+| Grind Enchantments | 4.2.2 | Extract enchantments to books and split enchanted books |
 | Sodium | 0.9.2 | Rendering performance |
 | Lithium | 0.26.2 | Game-logic optimization |
 | FerriteCore | 9.0.0 | Lower memory usage |
@@ -50,15 +53,28 @@ All entries are the Fabric build for Minecraft 26.3.
 | YetAnotherConfigLib (YACL) | 3.9.7 | BuildPrint and Sorted configuration |
 | Mod Menu | 21.0.0 | Access mod configuration |
 | Text Placeholder API | 3.2.0 | Mod Menu dependency |
-| Cloth Config API | 26.3.159 | AppleSkin's Mod Menu settings integration |
+| Cloth Config API | 26.3.159 | Settings support for AppleSkin, Falling Leaves and Tax Free Levels |
 
 Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI and Architectury API are not
 included. Neither are Create, AutoBuild or Litematica. Cloth Config stays only
-because AppleSkin's actual Mod Menu integration needs it.
+because AppleSkin's actual Mod Menu integration and other selected mods need it.
 
-**0.2.0 adds the five atmosphere/building-convenience mods above.** All existing
-mod and shader versions from 0.1.1 are retained. This is still a client-only pack
-with no new world content or progression.
+**0.3.0 adds Tax Free Levels and Grind Enchantments.** All previous mod and
+shader versions from 0.2.0 are retained. Both use their upstream defaults.
+
+- **Tax Free Levels:** XP costs no longer increase merely because the player
+  has a high XP level. Its defaults remove the anvil's "Too Expensive!" limit
+  and make renaming cost one level; this does not make every action free.
+- **Grind Enchantments:** place an enchanted item and a book in the grindstone
+  to move its enchantments onto the book and keep the unenchanted item. You can
+  also transfer enchantments between books.
+- These are gameplay changes, not just client interfaces. They work in
+  single-player and in a world opened to LAN by someone running this pack.
+  A separate server needs the gameplay mods installed too; joining a vanilla
+  server does not enable these mechanics there.
+
+The Tax Free Levels jar is named `TaxFreeLevels-1.5.4-fabric-26.1.jar`; its
+published version explicitly supports 26.3 despite that filename.
 
 ### Shader choices
 
@@ -130,7 +146,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.2.0.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.3.0.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
@@ -141,6 +157,9 @@ checks and confirms the selected shader is active. The test companion is never
 included in the pack. Screenshots and logs are kept in the per-shader
 `runtime-evidence-*` CI artifacts. These are compatibility checks, not FPS
 benchmarks.
+The existing Fabric dedicated-server harness also runs with the two gameplay
+mods and their dependencies loaded. This checks server loading and the
+harness's existing world operations, not every enchanting interaction.
 Only the test fixture skips BuildPrint's first-run tour; the exported pack
 keeps it.
 
@@ -157,8 +176,10 @@ To stage a clean installation for inspection, append
 never overwrites an existing instance.
 
 For an intentional update, use packwiz's update command, review every changed
-version, retain `side = "client"` on each entry, run `packwiz refresh`, and run
-the checks again. Do not hand-edit the generated `index.toml` hashes. CI rejects
+version, retain `side = "both"` for Tax Free Levels, Grind Enchantments, Fabric
+API and Cloth Config, and `side = "client"` for the other entries. Run
+`packwiz refresh` and the checks again. Do not hand-edit the generated
+`index.toml` hashes. CI rejects
 stale indexes, wrong targets, missing dependencies and mismatched downloads.
 
 The `.mrpack` is reproducible from the committed files: archive order,
@@ -167,7 +188,14 @@ branch builds. Version tags publish a private GitHub Release after validation.
 
 ## Multiplayer
 
-This is a **client pack**, not a server distribution. Do not copy its complete
-mods folder onto a server. Players can join a compatible vanilla/Fabric server;
-server rules still govern building automation. Nothing here grants creative
-mode, operator permission or free building materials.
+This is primarily a **player instance**, not a complete managed server
+distribution. Do not copy its complete mods folder onto a server. For the
+enchanting changes on a dedicated Fabric 26.3 server, install the matching
+**Tax Free Levels, Grind Enchantments, Fabric API and Cloth Config** files.
+Those four are marked as required on the server in the `.mrpack`; rendering
+and other client-only mods are not.
+
+Both players should use the same pack version. Server rules still govern
+building automation. Nothing here grants creative mode, operator permission
+or free building materials. The prior 0.2.0 release remains available for
+players who want the original vanilla enchanting rules.

@@ -6,6 +6,7 @@ import tempfile
 import tomllib
 import unittest
 import zipfile
+from dataclasses import replace
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -63,6 +64,17 @@ class PackTests(unittest.TestCase):
         self.manifest["files"][0]["env"]["server"] = "required"
         with self.assertRaisesRegex(ValueError, "environment"):
             validate_manifest(self.manifest, self.pack, [self.lock])
+
+    def test_gameplay_mods_and_dependencies_require_server_installation(self):
+        for slug in ("tax-free-levels", "grind-enchantments", "fabric-api", "cloth-config"):
+            with self.subTest(slug=slug):
+                lock = replace(self.lock, slug=slug)
+                manifest = copy.deepcopy(self.manifest)
+                manifest["files"][0]["env"]["server"] = "required"
+                validate_manifest(manifest, self.pack, [lock])
+                manifest["files"][0]["env"]["server"] = "unsupported"
+                with self.assertRaisesRegex(ValueError, "environment"):
+                    validate_manifest(manifest, self.pack, [lock])
 
     def test_missing_and_wrong_required_dependencies(self):
         version = {

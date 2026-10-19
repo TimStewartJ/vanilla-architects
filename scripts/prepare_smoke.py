@@ -1,10 +1,11 @@
 import argparse
+import json
 import os
 import re
 import shutil
 from pathlib import Path
 
-from verify_pack import SHADERS, read_toml, safe_path
+from verify_pack import SERVER_MODS, SHADERS, load_locks, read_toml, safe_path
 
 
 def main() -> None:
@@ -20,6 +21,11 @@ def main() -> None:
         raise ValueError("Smoke shader must be a single filename")
     instance = Path(os.environ["VANILLA_ARCHITECTS_INSTANCE"])
     (instance / "smoke-shader.txt").write_text(filename, encoding="utf-8")
+    _, locks = load_locks(root)
+    (instance / "server-mods.json").write_text(
+        json.dumps(sorted(lock.path for lock in locks if lock.slug in SERVER_MODS)),
+        encoding="utf-8",
+    )
     properties = args.harness / "versions" / "26.3" / "gradle.properties"
     text, count = re.subn(
         r"(?m)^fabric_loader_version=.*$",

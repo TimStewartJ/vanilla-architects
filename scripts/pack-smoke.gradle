@@ -1,6 +1,11 @@
 allprojects {
     afterEvaluate { project ->
         if (project.path == ":fabric:26.3") {
+            def instance = new File(System.getenv("VANILLA_ARCHITECTS_INSTANCE"))
+            def serverMods = new groovy.json.JsonSlurper()
+                .parse(new File(instance, "server-mods.json"))
+                .collect { new File(instance, it) }
+            project.dependencies.add("serverTestRuntimeOnly", project.files(serverMods))
             // Mojang's library mirror sometimes serves jsr305 without its Maven parent POM.
             project.repositories.exclusiveContent {
                 forRepository {
@@ -15,7 +20,6 @@ allprojects {
                 }
             }
             tasks.named("runProductionClientTest") { task ->
-                def instance = new File(System.getenv("VANILLA_ARCHITECTS_INSTANCE"))
                 // Replace Loom's default mod set: test the released pack jars, not a rebuilt mod.
                 task.mods.setFrom(project.fileTree(new File(instance, "mods")) {
                     include "*.jar"

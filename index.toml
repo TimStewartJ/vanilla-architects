@@ -24,7 +24,7 @@ metafile = true
 
 [[files]]
 file = "mods/cloth-config.pw.toml"
-hash = "42474de57f315a572181b93729733545ac46919d6832121a75c52b4f9e40fb98"
+hash = "2b9727522c90a979eb9671ad7c5421443d91391b0697d1772146e6bfa19cb3c1"
 metafile = true
 
 [[files]]
@@ -39,7 +39,7 @@ metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "56254ed84945ffb1c5038b5e7766a074fe828980c84d59656430c2a51d0df118"
+hash = "249b9a3bfcb8a23719e656abb121094e63c6d88eeab08f2fbd8ae569948d5303"
 metafile = true
 
 [[files]]
@@ -50,6 +50,11 @@ metafile = true
 [[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "86728cbc57c7646bb6d7d5838e65187e5335b319172e6dee8e78a455ffe02f40"
+metafile = true
+
+[[files]]
+file = "mods/grind-enchantments.pw.toml"
+hash = "81f56cf92b832c8dbb90fdee17ade5a4d0df951d916b7315c8f55e471e71b44e"
 metafile = true
 
 [[files]]
@@ -110,6 +115,11 @@ metafile = true
 [[files]]
 file = "mods/spyglass-improvements.pw.toml"
 hash = "0c4689451f38e9093f3139b8b25f5309ae8b5e2141e3b107bee45898048d819e"
+metafile = true
+
+[[files]]
+file = "mods/tax-free-levels.pw.toml"
+hash = "808265b6a9effdca0a30721dc99133dd499baa517862aaaee500e464dc48e5f9"
 metafile = true
 
 [[files]]

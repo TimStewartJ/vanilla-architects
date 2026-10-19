@@ -14,11 +14,12 @@ from pathlib import Path, PurePosixPath
 USER_AGENT = "VanillaArchitects/0.1 (github.com/TimStewartJ/vanilla-architects)"
 MODS = {
     "appleskin", "buildprint", "cloth-config", "continuity", "distanthorizons",
-    "fabric-api", "fallingleaves", "ferrite-core", "iris", "jade", "lambdynamiclights",
+    "fabric-api", "fallingleaves", "ferrite-core", "grind-enchantments", "iris", "jade", "lambdynamiclights",
     "lithium", "modmenu", "mouse-tweaks", "placeholder-api", "presence-footsteps",
     "shulkerboxtooltip", "sodium", "sorted", "spyglass-improvements",
-    "the-mighty-architectury", "yacl",
+    "tax-free-levels", "the-mighty-architectury", "yacl",
 }
+SERVER_MODS = {"fabric-api", "cloth-config", "tax-free-levels", "grind-enchantments"}
 SHADERS = {"bliss-shader", "complementary-reimagined", "i-like-vanilla"}
 OVERRIDES = {
     "overrides/config/DistantHorizons.toml",
@@ -90,8 +91,9 @@ def load_locks(root: Path) -> tuple[dict, list[LockedFile]]:
         if slug not in expected or slug in seen:
             raise ValueError(f"Unexpected or duplicate project: {slug}")
         seen.add(slug)
-        if meta["side"] != "client":
-            raise ValueError(f"{slug} must be client-only in this pack")
+        expected_side = "both" if slug in SERVER_MODS else "client"
+        if meta["side"] != expected_side:
+            raise ValueError(f"{slug} must have side = {expected_side!r} in this pack")
         download = meta["download"]
         if download["hash-format"] != "sha512" or not re.fullmatch(
             r"[0-9a-f]{128}", download["hash"]
@@ -131,7 +133,8 @@ def validate_manifest(manifest: dict, pack: dict, locks: list[LockedFile]) -> No
             raise ValueError(f"Unexpected or duplicate download: {path}")
         seen.add(path)
         lock = expected[path]
-        if entry.get("env") != {"client": "required", "server": "unsupported"}:
+        server_environment = "required" if lock.slug in SERVER_MODS else "unsupported"
+        if entry.get("env") != {"client": "required", "server": server_environment}:
             raise ValueError(f"Incorrect client/server environment for {path}")
         if entry.get("downloads") != [lock.url]:
             raise ValueError(f"Download URL differs from the lock for {path}")
