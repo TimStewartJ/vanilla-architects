@@ -157,9 +157,10 @@ checks and confirms the selected shader is active. The test companion is never
 included in the pack. Screenshots and logs are kept in the per-shader
 `runtime-evidence-*` CI artifacts. These are compatibility checks, not FPS
 benchmarks.
-The existing Fabric dedicated-server harness also runs with the two gameplay
-mods and their dependencies loaded. This checks server loading and the
-harness's existing world operations, not every enchanting interaction.
+The existing Fabric dedicated-server harness also runs with the dedicated-server
+subset described below. The harness supplies Mighty Architectury itself; the
+other eight pinned mods are added to its server runtime. This checks server
+loading and the harness's existing world operations, not every enchanting interaction.
 Only the test fixture skips BuildPrint's first-run tour; the exported pack
 keeps it.
 
@@ -188,12 +189,53 @@ branch builds. Version tags publish a private GitHub Release after validation.
 
 ## Multiplayer
 
-This is primarily a **player instance**, not a complete managed server
-distribution. Do not copy its complete mods folder onto a server. For the
-enchanting changes on a dedicated Fabric 26.3 server, install the matching
-**Tax Free Levels, Grind Enchantments, Fabric API and Cloth Config** files.
-Those four are marked as required on the server in the `.mrpack`; rendering
-and other client-only mods are not.
+The `.mrpack` is a **player instance**. Do not copy its complete mods folder
+onto a server. For just the enchanting changes on a dedicated Fabric 26.3
+server, the matching **Tax Free Levels, Grind Enchantments, Fabric API and Cloth
+Config** files are required. Those four remain marked as required on the server
+in the client `.mrpack`; its other entries are not automatically installed there.
+
+### Dedicated-server subset
+
+To prepare the companion server installation from the same exact pack pins:
+
+```powershell
+python -m unittest discover -s tests -v
+python scripts\build_server.py --install-dir build\server
+```
+
+The destination must be empty. The command verifies upstream Minecraft/loader
+compatibility, dependency closure, download hashes and Fabric metadata before
+installing these nine mods:
+
+| Component | Why it is on the server |
+| --- | --- |
+| Fabric API and Cloth Config | Gameplay-mod dependencies |
+| Tax Free Levels and Grind Enchantments | The pack's enchanting/XP rules |
+| The Mighty Architectury | Permission-checked server building support |
+| Jade | Additional information for clients using Jade |
+| Lithium and FerriteCore | Server game-logic and memory optimizations |
+| Distant Horizons | Multiplayer LOD support using the client's pinned release |
+
+These are the existing versions in the table above, not independently resolved
+latest versions. BuildPrint and Sorted remain client-side; survival printing
+still consumes the player's materials. Shader packs, Iris, Sodium, resource packs
+and other client interfaces are not installed on the server.
+
+The command also writes `dist\Vanilla-Architects-0.3.0-server.json` and its SHA-512
+file. This manifest records the exact official download URLs, hashes, versions
+and Fabric Loader/Minecraft requirements; it does not redistribute mod binaries.
+CI includes it in the pack artifact and future release uploads.
+
+Run the installed `mods` folder with **Minecraft 26.3, Fabric Loader 0.19.5 and
+Java 25**. The export does not include Java, the Minecraft server, an accepted
+EULA, a world, operator/whitelist entries, credentials or a managed backup
+schedule. Preserve those deployment-specific settings separately.
+
+For an existing world, first make and verify a save-consistent **off-host
+backup**, test the conversion on a copy, and retain the original installation
+for rollback. Do not open a world converted to 26.3 in an older server; restore
+the pre-upgrade backup instead.
 
 Both players should use the same pack version. Server rules still govern
 building automation. Nothing here grants creative mode, operator permission

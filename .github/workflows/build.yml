@@ -45,6 +45,9 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Build and verify every download
         run: python scripts/build_pack.py --download --install-dir build/instance
+      - name: Build and verify the dedicated-server manifest
+        if: matrix.shader == 'i-like-vanilla'
+        run: python scripts/build_server.py --install-dir build/server
       - name: Check out the existing production-client harness
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -72,7 +75,7 @@ jobs:
       - name: Stage the candidate in the disposable test instance only
         if: inputs.mightyarchitect_ref != ''
         run: python scripts/stage_candidate.py build/harness
-      - name: Dedicated-server gameplay-mod loading smoke
+      - name: Dedicated-server pack loading smoke
         if: matrix.shader == 'i-like-vanilla'
         working-directory: build/harness
         run: pwsh -NoProfile -File scripts/run-server-test-matrix.ps1 -Versions 26.3 -Loaders fabric

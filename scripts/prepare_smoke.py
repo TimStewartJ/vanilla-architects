@@ -5,7 +5,8 @@ import re
 import shutil
 from pathlib import Path
 
-from verify_pack import SERVER_MODS, SHADERS, load_locks, read_toml, safe_path
+from build_server import SERVER_COMPONENTS
+from verify_pack import SHADERS, load_locks, read_toml, safe_path
 
 
 def main() -> None:
@@ -23,7 +24,10 @@ def main() -> None:
     (instance / "smoke-shader.txt").write_text(filename, encoding="utf-8")
     _, locks = load_locks(root)
     (instance / "server-mods.json").write_text(
-        json.dumps(sorted(lock.path for lock in locks if lock.slug in SERVER_MODS)),
+        json.dumps(sorted(
+            lock.path for lock in locks
+            if lock.slug in SERVER_COMPONENTS - {"the-mighty-architectury"}
+        )),
         encoding="utf-8",
     )
     properties = args.harness / "versions" / "26.3" / "gradle.properties"
