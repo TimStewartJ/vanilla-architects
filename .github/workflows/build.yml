@@ -98,6 +98,8 @@ jobs:
         with:
           name: runtime-evidence-${{ matrix.shader }}
           if-no-files-found: ignore
+          # ~120 MB per shader per run; private-repo artifacts count against the account storage quota.
+          retention-days: 7
           path: |
             build/harness/build/prod-client-test-results/
             build/harness/build/server-test-results/
