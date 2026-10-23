@@ -35,6 +35,17 @@ allprojects {
                         from new File(instance, "shaderpacks")
                         into task.runDir.dir("shaderpacks")
                     }
+                    project.copy {
+                        from new File(instance, "resourcepacks")
+                        into task.runDir.dir("resourcepacks")
+                    }
+                    // The harness writes a fresh options.txt before Gradle starts; enable the
+                    // entity-animation packs only in this disposable client.
+                    def packs = new groovy.json.JsonSlurper()
+                        .parse(new File(instance, "smoke-resourcepacks.json"))
+                    task.runDir.file("options.txt").get().asFile << (
+                        "\nresourcePacks:" + groovy.json.JsonOutput.toJson(["vanilla", "fabric"] + packs) + "\n"
+                    )
                     def iris = task.runDir.file("config/iris.properties").get().asFile
                     def shader = new File(instance, "smoke-shader.txt").getText("UTF-8")
                     iris.text = iris.text.replace("enableShaders=false", "enableShaders=true")

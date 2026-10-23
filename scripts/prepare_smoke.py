@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 from build_server import SERVER_COMPONENTS
-from verify_pack import SHADERS, load_locks, read_toml, safe_path
+from verify_pack import SHADERS, SMOKE_RESOURCEPACKS, load_locks, read_toml, safe_path
 
 
 def main() -> None:
@@ -23,6 +23,14 @@ def main() -> None:
     instance = Path(os.environ["VANILLA_ARCHITECTS_INSTANCE"])
     (instance / "smoke-shader.txt").write_text(filename, encoding="utf-8")
     _, locks = load_locks(root)
+    by_slug = {lock.slug: lock for lock in locks}
+    (instance / "smoke-resourcepacks.json").write_text(
+        json.dumps([
+            "file/" + by_slug[slug].path.removeprefix("resourcepacks/")
+            for slug in SMOKE_RESOURCEPACKS
+        ]),
+        encoding="utf-8",
+    )
     (instance / "server-mods.json").write_text(
         json.dumps(sorted(
             lock.path for lock in locks

@@ -13,6 +13,11 @@ file = "config/sodium-options.json"
 hash = "535f2f0a496677258abe9d07df591df729a88bcd5f5db5bb54b36063102e10a0"
 
 [[files]]
+file = "mods/3dskinlayers.pw.toml"
+hash = "bb194ec7f1affde2fb2d6d052683e96babe72b693e4c3263dfd8245d3941b701"
+metafile = true
+
+[[files]]
 file = "mods/appleskin.pw.toml"
 hash = "44bec54be378e6fa88c8c06df63e84ca57011c13dededff98d03c36df5181902"
 metafile = true
@@ -28,6 +33,11 @@ hash = "2b9727522c90a979eb9671ad7c5421443d91391b0697d1772146e6bfa19cb3c1"
 metafile = true
 
 [[files]]
+file = "mods/collective.pw.toml"
+hash = "37747b9f37f260a034c648c846d29d4ee3645e30e1c60fbfe5fc451d7639dea1"
+metafile = true
+
+[[files]]
 file = "mods/continuity.pw.toml"
 hash = "aad07f6496bbf478116eaa0e82fa7fbdd022ca755b392029193e1090d76716b3"
 metafile = true
@@ -35,6 +45,26 @@ metafile = true
 [[files]]
 file = "mods/distanthorizons.pw.toml"
 hash = "dd8049b57c04c865f57236f30a96330b8fb5a679b93e7021e3a1a0357f356144"
+metafile = true
+
+[[files]]
+file = "mods/double-doors.pw.toml"
+hash = "ef61b919738bd84042575bd0615068f6c8ef6ed57b5ce846d684952cddc066a7"
+metafile = true
+
+[[files]]
+file = "mods/entity-model-features.pw.toml"
+hash = "d00381d69d0dba1911229acbc2f89887026d72cc0270a27c94c1e7d06a61fd19"
+metafile = true
+
+[[files]]
+file = "mods/entityculling.pw.toml"
+hash = "29f920b8bdac98a1a1d9e6454d0c3b4d0eb1f3779f2fea7b7df177b2163e5d61"
+metafile = true
+
+[[files]]
+file = "mods/entitytexturefeatures.pw.toml"
+hash = "bdabe52b4c88b2f57ab21c130c3d00a1ebae771085d31b44674d13c35135feff"
 metafile = true
 
 [[files]]
@@ -55,6 +85,11 @@ metafile = true
 [[files]]
 file = "mods/grind-enchantments.pw.toml"
 hash = "81f56cf92b832c8dbb90fdee17ade5a4d0df951d916b7315c8f55e471e71b44e"
+metafile = true
+
+[[files]]
+file = "mods/immediatelyfast.pw.toml"
+hash = "a7f6a1543f41198911a8b1e5e059fa0c8003365ebd6c2314e2dfa0806aff300a"
 metafile = true
 
 [[files]]
@@ -88,6 +123,11 @@ hash = "d9f809b321cdd117600e45f92215c8e750ed0b65641c18d394bb4c111019581d"
 metafile = true
 
 [[files]]
+file = "mods/not-enough-animations.pw.toml"
+hash = "d60f63dffcf68f88d6abb0fabd2ba7246831929a41c1179744912d03e3ba28d3"
+metafile = true
+
+[[files]]
 file = "mods/placeholder-api.pw.toml"
 hash = "aa73c5c61a2e26d7c8aeafca23504f4e34e9d34238fffe4613b6f314dfd35776"
 metafile = true
@@ -113,6 +153,11 @@ hash = "610c373f1f28bca69201f17fed67568f1c9676c9e19ee5c660f8411a142bbddd"
 metafile = true
 
 [[files]]
+file = "mods/sound-physics-remastered.pw.toml"
+hash = "f5b4ae158259f9e6f3c655cbb8865362a5c5609865c4d105d0576919054e5622"
+metafile = true
+
+[[files]]
 file = "mods/spyglass-improvements.pw.toml"
 hash = "0c4689451f38e9093f3139b8b25f5309ae8b5e2141e3b107bee45898048d819e"
 metafile = true
@@ -130,6 +175,26 @@ metafile = true
 [[files]]
 file = "mods/yacl.pw.toml"
 hash = "2927b1f407d827809c1d1cf9e9622b9d27be0529427510662cd270a85db40bda"
+metafile = true
+
+[[files]]
+file = "resourcepacks/coffeepbr.pw.toml"
+hash = "eedd21ecf75fe44cde9bdfe60e54d3e2c3750b6d0c58096bcf90afb1401b8d34"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fa-player-extension.pw.toml"
+hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations-details.pw.toml"
+hash = "76fac76ecfa8369e351fd6892174112bbd46f1806a79d569d239e171d6b21bf5"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations.pw.toml"
+hash = "435a3f840613486ed00c68c6eea16324083b9a5a745503b22942d6b53c06b5ed"
 metafile = true
 
 [[files]]

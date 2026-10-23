@@ -10,7 +10,7 @@ from verify_pack import digest
 
 def mod_id(path: Path) -> str:
     with zipfile.ZipFile(path) as archive:
-        return json.loads(archive.read("fabric.mod.json"))["id"]
+        return json.loads(archive.read("fabric.mod.json"), strict=False)["id"]
 
 
 def main() -> None:

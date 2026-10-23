@@ -55,14 +55,43 @@ All entries are the Fabric build for Minecraft 26.3.
 | Mod Menu | 21.0.0 | Access mod configuration |
 | Text Placeholder API | 3.2.0 | Mod Menu dependency |
 | Cloth Config API | 26.3.159 | Settings support for AppleSkin, Falling Leaves and Tax Free Levels |
+| Entity Model Features | 3.3.12 | Animated mob models from resource packs (Fresh Animations) |
+| Entity Texture Features | 7.2.6 | Entity texture features used by Fresh Animations |
+| 3D Skin Layers | 1.11.4 | Renders skin overlay layers in 3D |
+| Not Enough Animations | 1.12.6 | Extra player animations such as eating, maps and ladders |
+| Sound Physics Remastered | 1.5.2 | Cave reverb and sound muffled by walls (upstream beta) |
+| ImmediatelyFast | 1.17.1 | Faster entity, text and GUI rendering |
+| EntityCulling | 1.11.3 | Skips rendering hidden entities and block entities |
+| Double Doors | 7.5 | Both halves of a double door open together |
+| Collective | 8.64 | Double Doors dependency |
 
 Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI and Architectury API are not
 included. Neither are Create, AutoBuild or Litematica. Cloth Config stays only
 because AppleSkin's actual Mod Menu integration and other selected mods need it.
 
-**0.4.0 updates The Mighty Architectury to 3.0.0.** Everything else is unchanged.
+### Resource packs
+
+| Pack | Version | Notes |
+| --- | --- | --- |
+| [Fresh Animations](https://modrinth.com/resourcepack/fresh-animations) | 1.11.1 | Vanilla-style animated mobs |
+| [Fresh Animations: Details](https://modrinth.com/resourcepack/fresh-animations-details) | 2.3.0 | Official extra mob details; place above Fresh Animations |
+| [Fresh Animations: Player Extension](https://modrinth.com/resourcepack/fa-player-extension) | 1.1.0 | Official player animations; place above Fresh Animations |
+| [CoffeePBR](https://modrinth.com/resourcepack/coffeepbr) | 1.0 (beta) | Vanilla-style PBR materials for Complementary or Bliss |
+
+**Resource packs are not enabled automatically.** A modpack can only force them
+on by overwriting each player's `options.txt` on every update, so the pack
+leaves that choice to the player. In Options -> Resource Packs, move **Fresh
+Animations** to the right, then **Details** and **Player Extension** above it.
+Enable CoffeePBR only with Complementary or Bliss: it adds little without a
+PBR shader and is a 45 MB upstream beta.
+
+**0.4.0 updates The Mighty Architectury to 3.0.0** and adds the entity
+animation, sound and rendering-performance mods above, Double Doors and four
+optional resource packs. Existing pins are unchanged.
 Its theme tools are now a blaze rod, lodestones and glazed terracotta; any old
 Mighty Architect marker blocks in a world turn into air.
+Double Doors is a gameplay mod: it works in single-player and on a LAN host
+running the pack, and a dedicated server needs it plus Collective.
 
 **0.3.0 added Tax Free Levels and Grind Enchantments,** both with their upstream defaults.
 
@@ -163,10 +192,12 @@ included in the pack. Screenshots and logs are kept in the per-shader
 benchmarks.
 The existing Fabric dedicated-server harness also runs with the dedicated-server
 subset described below. The harness supplies Mighty Architectury itself; the
-other eight pinned mods are added to its server runtime. This checks server
+other ten pinned mods are added to its server runtime. This checks server
 loading and the harness's existing world operations, not every enchanting interaction.
-Only the test fixture skips BuildPrint's first-run tour; the exported pack
-keeps it.
+Only the test fixture skips BuildPrint's first-run tour and enables the three
+Fresh Animations packs, so CI confirms they load with each shader; the exported
+pack keeps the tour and leaves resource packs off. CoffeePBR is download- and
+format-checked but not rendered in CI.
 
 To verify an unmerged Mighty Architectury fix, manually run **Build modpack**
 and set `mightyarchitect_ref` to its exact commit. That run tests the renderer
@@ -181,8 +212,10 @@ To stage a clean installation for inspection, append
 never overwrites an existing instance.
 
 For an intentional update, use packwiz's update command, review every changed
-version, retain `side = "both"` for Tax Free Levels, Grind Enchantments, Fabric
-API and Cloth Config, and `side = "client"` for the other entries. Run
+version, retain `side = "both"` for Tax Free Levels, Grind Enchantments, Double
+Doors, Collective, Fabric API and Cloth Config, and `side = "client"` for the
+other entries, including Sound Physics Remastered and the resource packs (packwiz
+marks those `both` because of their Modrinth metadata). Run
 `packwiz refresh` and the checks again. Do not hand-edit the generated
 `index.toml` hashes. CI rejects
 stale indexes, wrong targets, missing dependencies and mismatched downloads.
@@ -194,10 +227,11 @@ branch builds. Version tags publish a private GitHub Release after validation.
 ## Multiplayer
 
 The `.mrpack` is a **player instance**. Do not copy its complete mods folder
-onto a server. For just the enchanting changes on a dedicated Fabric 26.3
-server, the matching **Tax Free Levels, Grind Enchantments, Fabric API and Cloth
-Config** files are required. Those four remain marked as required on the server
-in the client `.mrpack`; its other entries are not automatically installed there.
+onto a server. For the gameplay changes on a dedicated Fabric 26.3 server, the
+matching **Tax Free Levels, Grind Enchantments, Double Doors, Collective, Fabric
+API and Cloth Config** files are required. Those six remain marked as required on
+the server in the client `.mrpack`; its other entries are not automatically
+installed there.
 
 ### Dedicated-server subset
 
@@ -210,12 +244,13 @@ python scripts\build_server.py --install-dir build\server
 
 The destination must be empty. The command verifies upstream Minecraft/loader
 compatibility, dependency closure, download hashes and Fabric metadata before
-installing these nine mods:
+installing these eleven mods:
 
 | Component | Why it is on the server |
 | --- | --- |
 | Fabric API and Cloth Config | Gameplay-mod dependencies |
 | Tax Free Levels and Grind Enchantments | The pack's enchanting/XP rules |
+| Double Doors and Collective | Paired door opening (Collective is its library) |
 | The Mighty Architectury | Faster printing (optional; players without it can still join) |
 | Jade | Additional information for clients using Jade |
 | Lithium and FerriteCore | Server game-logic and memory optimizations |

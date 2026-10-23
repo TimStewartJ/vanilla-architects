@@ -1,0 +1,13 @@
+name = "Fresh Animations"
+filename = "FreshAnimations_v1.11.1_26.1+.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/50dA9Sha/versions/tvGVYMD4/FreshAnimations_v1.11.1_26.1%2B.zip"
+hash-format = "sha512"
+hash = "5357a3dbce74f5bdb688f3c4e6f7cadb6e0d81d3dde41d46017993d5bc5456a325a39a3faad0d471be51fcc73e3a47218ec64ed8e0024b092cd117b422f23356"
+
+[update]
+[update.modrinth]
+mod-id = "50dA9Sha"
+version = "tvGVYMD4"

@@ -13,14 +13,27 @@ from pathlib import Path, PurePosixPath
 
 USER_AGENT = "VanillaArchitects/0.1 (github.com/TimStewartJ/vanilla-architects)"
 MODS = {
-    "appleskin", "buildprint", "cloth-config", "continuity", "distanthorizons",
-    "fabric-api", "fallingleaves", "ferrite-core", "grind-enchantments", "iris", "jade", "lambdynamiclights",
-    "lithium", "modmenu", "mouse-tweaks", "placeholder-api", "presence-footsteps",
-    "shulkerboxtooltip", "sodium", "sorted", "spyglass-improvements",
-    "tax-free-levels", "the-mighty-architectury", "yacl",
+    "3dskinlayers", "appleskin", "buildprint", "cloth-config", "collective",
+    "continuity", "distanthorizons", "double-doors", "entity-model-features",
+    "entityculling", "entitytexturefeatures", "fabric-api", "fallingleaves",
+    "ferrite-core", "grind-enchantments", "immediatelyfast", "iris", "jade",
+    "lambdynamiclights", "lithium", "modmenu", "mouse-tweaks",
+    "not-enough-animations", "placeholder-api", "presence-footsteps",
+    "shulkerboxtooltip", "sodium", "sorted", "sound-physics-remastered",
+    "spyglass-improvements", "tax-free-levels", "the-mighty-architectury", "yacl",
 }
-SERVER_MODS = {"fabric-api", "cloth-config", "tax-free-levels", "grind-enchantments"}
+SERVER_MODS = {
+    "fabric-api", "cloth-config", "tax-free-levels", "grind-enchantments",
+    "double-doors", "collective",
+}
 SHADERS = {"bliss-shader", "complementary-reimagined", "i-like-vanilla"}
+RESOURCEPACKS = {
+    "coffeepbr", "fa-player-extension", "fresh-animations", "fresh-animations-details",
+}
+# Enabled only in the disposable test client, lowest priority first; players choose their own packs.
+SMOKE_RESOURCEPACKS = ("fresh-animations", "fresh-animations-details", "fa-player-extension")
+LOCK_FOLDERS = {"mods": MODS, "shaderpacks": SHADERS, "resourcepacks": RESOURCEPACKS}
+LOADERS = {"mods": "fabric", "shaderpacks": "iris", "resourcepacks": "minecraft"}
 OVERRIDES = {
     "overrides/config/DistantHorizons.toml",
     "overrides/config/iris.properties",
@@ -87,7 +100,7 @@ def load_locks(root: Path) -> tuple[dict, list[LockedFile]]:
         meta = read_toml(source)
         slug = source.name.removesuffix(".pw.toml")
         folder = source.parent.name
-        expected = MODS if folder == "mods" else SHADERS if folder == "shaderpacks" else set()
+        expected = LOCK_FOLDERS.get(folder, set())
         if slug not in expected or slug in seen:
             raise ValueError(f"Unexpected or duplicate project: {slug}")
         seen.add(slug)
@@ -109,7 +122,7 @@ def load_locks(root: Path) -> tuple[dict, list[LockedFile]]:
             slug, f"{folder}/{filename}", update["mod-id"], update["version"],
             download["url"], download["hash"],
         ))
-    missing = (MODS | SHADERS) - seen
+    missing = (MODS | SHADERS | RESOURCEPACKS) - seen
     if missing:
         raise ValueError(f"Missing pinned projects: {', '.join(sorted(missing))}")
     return pack, locks
@@ -199,7 +212,7 @@ def validate_versions(versions: list[tuple[LockedFile, dict]]) -> None:
             raise ValueError(f"Upstream project/version mismatch for {lock.slug}")
         if "26.3" not in version["game_versions"]:
             raise ValueError(f"{lock.slug} does not declare Minecraft 26.3 support")
-        loader = "fabric" if lock.slug in MODS else "iris"
+        loader = LOADERS[lock.path.split("/", 1)[0]]
         if loader not in version["loaders"]:
             raise ValueError(f"{lock.slug} does not declare {loader} support")
         matching = [
@@ -249,9 +262,13 @@ def verify_download(path: Path, entry: dict) -> None:
             raise ValueError(f"Download {algorithm} mismatch for {entry['path']}")
     with zipfile.ZipFile(path) as archive:
         if entry["path"].startswith("mods/"):
-            metadata = json.loads(archive.read("fabric.mod.json"))
+            metadata = json.loads(archive.read("fabric.mod.json"), strict=False)
             if not metadata.get("id") or not metadata.get("version"):
                 raise ValueError(f"Invalid Fabric metadata in {entry['path']}")
+        elif entry["path"].startswith("resourcepacks/"):
+            metadata = json.loads(archive.read("pack.mcmeta").decode("utf-8-sig"))
+            if not isinstance(metadata.get("pack"), dict):
+                raise ValueError(f"Invalid resource pack metadata in {entry['path']}")
         else:
             if not any(
                 "shaders/" in name and "dh_terrain" in name
@@ -282,4 +299,7 @@ def download_and_verify(
             destination = install_dir / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(root / relative, destination)
-    print(f"Verified {len(MODS)} mods, {len(SHADERS)} shaders and all required dependencies")
+    print(
+        f"Verified {len(MODS)} mods, {len(SHADERS)} shaders, {len(RESOURCEPACKS)} "
+        "resource packs and all required dependencies"
+    )

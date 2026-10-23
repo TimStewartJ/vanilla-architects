@@ -63,7 +63,7 @@ def server_manifest(pack: dict, versions: list[tuple[LockedFile, dict]]) -> dict
 
 def verify_server_environment(path: Path) -> None:
     with zipfile.ZipFile(path) as archive:
-        metadata = json.loads(archive.read("fabric.mod.json"))
+        metadata = json.loads(archive.read("fabric.mod.json"), strict=False)
     if metadata.get("environment", "*") == "client":
         raise ValueError(f"Client-only mod cannot be installed on the server: {path.name}")
 

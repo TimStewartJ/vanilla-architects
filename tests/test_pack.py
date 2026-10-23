@@ -66,7 +66,10 @@ class PackTests(unittest.TestCase):
             validate_manifest(self.manifest, self.pack, [self.lock])
 
     def test_gameplay_mods_and_dependencies_require_server_installation(self):
-        for slug in ("tax-free-levels", "grind-enchantments", "fabric-api", "cloth-config"):
+        for slug in (
+            "tax-free-levels", "grind-enchantments", "fabric-api", "cloth-config",
+            "double-doors", "collective",
+        ):
             with self.subTest(slug=slug):
                 lock = replace(self.lock, slug=slug)
                 manifest = copy.deepcopy(self.manifest)
@@ -92,11 +95,52 @@ class PackTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Wrong required dependency version"):
             validate_versions([(self.lock, version), (sodium, {})])
 
+    def test_resource_packs_are_client_only_vanilla_packs(self):
+        lock = LockedFile(
+            "fresh-animations", "resourcepacks/fa.zip", "fa-project", "fa-version",
+            "https://cdn.modrinth.com/data/fa.zip", "b" * 128,
+        )
+        manifest = copy.deepcopy(self.manifest)
+        manifest["files"][0].update(
+            path=lock.path, downloads=[lock.url], hashes={"sha512": lock.sha512},
+        )
+        validate_manifest(manifest, self.pack, [lock])
+        manifest["files"][0]["env"]["server"] = "required"
+        with self.assertRaisesRegex(ValueError, "environment"):
+            validate_manifest(manifest, self.pack, [lock])
+        version = {
+            "project_id": lock.project, "id": lock.version, "game_versions": ["26.3"],
+            "loaders": ["fabric"], "dependencies": [],
+            "files": [{"url": lock.url, "hashes": {"sha512": lock.sha512}}],
+        }
+        with self.assertRaisesRegex(ValueError, "minecraft support"):
+            validate_versions([(lock, version)])
+        version["loaders"] = ["minecraft"]
+        validate_versions([(lock, version)])
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "pack.zip"
+            with zipfile.ZipFile(path, "w") as archive:
+                archive.writestr("assets/minecraft/textures/a.png", b"")
+            entry = {
+                "path": lock.path, "fileSize": path.stat().st_size,
+                "hashes": {"sha512": hashlib.sha512(path.read_bytes()).hexdigest()},
+            }
+            with self.assertRaises(KeyError):
+                verify_download(path, entry)
+            with zipfile.ZipFile(path, "a") as archive:
+                archive.writestr("pack.mcmeta", '\ufeff{"pack": {"description": "x"}}')
+            entry["fileSize"] = path.stat().st_size
+            entry["hashes"]["sha512"] = hashlib.sha512(path.read_bytes()).hexdigest()
+            verify_download(path, entry)
+
     def test_download_hash_is_checked_before_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "mod.jar"
             with zipfile.ZipFile(path, "w") as archive:
-                archive.writestr("fabric.mod.json", json.dumps({"id": "test", "version": "1"}))
+                archive.writestr(
+                    "fabric.mod.json",
+                    '{"id": "test", "version": "1", "description": "two\nlines"}',
+                )
             entry = {
                 "path": "mods/test.jar", "fileSize": path.stat().st_size,
                 "hashes": {"sha512": hashlib.sha512(path.read_bytes()).hexdigest()},

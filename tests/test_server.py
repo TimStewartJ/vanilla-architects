@@ -48,9 +48,10 @@ class ServerTests(unittest.TestCase):
         selected = select_server_locks(locks)
         self.assertEqual({lock.slug for lock in selected}, SERVER_COMPONENTS)
         self.assertTrue(SERVER_MODS <= SERVER_COMPONENTS)
-        self.assertEqual(len(selected), 9)
+        self.assertEqual(len(selected), 11)
         self.assertFalse(
-            {"iris", "sodium", "buildprint", "sorted", "modmenu"} & SERVER_COMPONENTS
+            {"iris", "sodium", "buildprint", "sorted", "modmenu",
+             "entity-model-features", "sound-physics-remastered"} & SERVER_COMPONENTS
         )
         self.assertEqual(pack["versions"], self.pack["versions"])
 

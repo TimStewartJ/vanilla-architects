@@ -1,0 +1,13 @@
+name = "CoffeePBR"
+filename = "CoffeePBR_Beta_1.0.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/shB431L6/versions/f15hEN0L/CoffeePBR_Beta_1.0.zip"
+hash-format = "sha512"
+hash = "4d9e17a7533fef3542766cddcf54a7014944a2ddc665deef376f34dffc88e75ee9fbfcb89ac0242f511f5fd7a6c5bb1e62bea8a338ba0515e82d608c1a1cf537"
+
+[update]
+[update.modrinth]
+mod-id = "shB431L6"
+version = "f15hEN0L"
