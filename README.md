@@ -4,12 +4,13 @@ A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
 building and distant landscapes, with small enchanting/XP conveniences.
 No new biomes, dimensions or ores.
 
-Mighty Architectury **2.1.1** includes the 26.x shader-compatibility fix. The pack
-uses the official published jar, not a private patched build.
+Mighty Architectury **3.0.0** adds no blocks or items, so a server or LAN host
+running it no longer turns away players who don't have it. The pack uses the
+official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.3.0.mrpack` from this private repository's
+Download `Vanilla-Architects-0.4.0.mrpack` from this private repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 Sign in to GitHub to access the private release.
 
@@ -30,7 +31,7 @@ All entries are the Fabric build for Minecraft 26.3.
 
 | Mod | Version | Purpose |
 | --- | --- | --- |
-| The Mighty Architectury | 2.1.1 | Design buildings and export schematics |
+| The Mighty Architectury | 3.0.0 | Design buildings and export schematics |
 | BuildPrint | 0.1.20 | Schematic previews, material lists and survival printing |
 | Sorted | 0.1.27 | Sorting, quick stack and BuildPrint chest-stock integration |
 | Jade | 26.3.5 | Block information |
@@ -59,8 +60,11 @@ Fabric Loader is pinned to **0.19.5**. REI, JEI, EMI and Architectury API are no
 included. Neither are Create, AutoBuild or Litematica. Cloth Config stays only
 because AppleSkin's actual Mod Menu integration and other selected mods need it.
 
-**0.3.0 adds Tax Free Levels and Grind Enchantments.** All previous mod and
-shader versions from 0.2.0 are retained. Both use their upstream defaults.
+**0.4.0 updates The Mighty Architectury to 3.0.0.** Everything else is unchanged.
+Its theme tools are now a blaze rod, lodestones and glazed terracotta; any old
+Mighty Architect marker blocks in a world turn into air.
+
+**0.3.0 added Tax Free Levels and Grind Enchantments,** both with their upstream defaults.
 
 - **Tax Free Levels:** XP costs no longer increase merely because the player
   has a high XP level. Its defaults remove the anvil's "Too Expensive!" limit
@@ -146,7 +150,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.3.0.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.4.0.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
@@ -212,7 +216,7 @@ installing these nine mods:
 | --- | --- |
 | Fabric API and Cloth Config | Gameplay-mod dependencies |
 | Tax Free Levels and Grind Enchantments | The pack's enchanting/XP rules |
-| The Mighty Architectury | Permission-checked server building support |
+| The Mighty Architectury | Faster printing (optional; players without it can still join) |
 | Jade | Additional information for clients using Jade |
 | Lithium and FerriteCore | Server game-logic and memory optimizations |
 | Distant Horizons | Multiplayer LOD support using the client's pinned release |
@@ -222,7 +226,7 @@ latest versions. BuildPrint and Sorted remain client-side; survival printing
 still consumes the player's materials. Shader packs, Iris, Sodium, resource packs
 and other client interfaces are not installed on the server.
 
-The command also writes `dist\Vanilla-Architects-0.3.0-server.json` and its SHA-512
+The command also writes `dist\Vanilla-Architects-0.4.0-server.json` and its SHA-512
 file. This manifest records the exact official download URLs, hashes, versions
 and Fabric Loader/Minecraft requirements; it does not redistribute mod binaries.
 CI includes it in the pack artifact and future release uploads.
