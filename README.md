@@ -41,6 +41,7 @@ All entries are the Fabric build for Minecraft 26.3.
 | Continuity | 3.0.1 | Connected textures for glass and other building materials |
 | Presence Footsteps | 1.14.0 | Material-specific walking sounds |
 | Spyglass Improvements | 1.6 | Adjustable spyglass zoom and quick access |
+| Freecam | 1.5.1 | Detached camera for viewing builds from any angle (toggle with F4) |
 | Falling Leaves | 2.0.8 | Configurable falling-leaf particles |
 | LambDynamicLights | 4.13.0 | Dynamic lighting from carried items and other light sources |
 | Tax Free Levels | 1.5.4 | Predictable XP costs and no default "Too Expensive!" anvil limit |

@@ -83,6 +83,11 @@ hash = "86728cbc57c7646bb6d7d5838e65187e5335b319172e6dee8e78a455ffe02f40"
 metafile = true
 
 [[files]]
+file = "mods/freecam.pw.toml"
+hash = "956925160888e1f05887dc1a5a97ba91ce0288b967d4d1dc826af52c737b1a29"
+metafile = true
+
+[[files]]
 file = "mods/grind-enchantments.pw.toml"
 hash = "81f56cf92b832c8dbb90fdee17ade5a4d0df951d916b7315c8f55e471e71b44e"
 metafile = true

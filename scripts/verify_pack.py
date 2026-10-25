@@ -16,7 +16,7 @@ MODS = {
     "3dskinlayers", "appleskin", "buildprint", "cloth-config", "collective",
     "continuity", "distanthorizons", "double-doors", "entity-model-features",
     "entityculling", "entitytexturefeatures", "fabric-api", "fallingleaves",
-    "ferrite-core", "grind-enchantments", "immediatelyfast", "iris", "jade",
+    "ferrite-core", "freecam", "grind-enchantments", "immediatelyfast", "iris", "jade",
     "lambdynamiclights", "lithium", "modmenu", "mouse-tweaks",
     "not-enough-animations", "placeholder-api", "presence-footsteps",
     "shulkerboxtooltip", "sodium", "sorted", "sound-physics-remastered",
