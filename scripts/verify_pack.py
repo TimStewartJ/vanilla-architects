@@ -11,6 +11,8 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 
+from architect_theme import validate_packed_theme, validate_palette
+
 USER_AGENT = "VanillaArchitects/0.1 (github.com/TimStewartJ/vanilla-architects)"
 MODS = {
     "3dskinlayers", "appleskin", "buildprint", "cloth-config", "collective",
@@ -34,10 +36,16 @@ RESOURCEPACKS = {
 SMOKE_RESOURCEPACKS = ("fresh-animations", "fresh-animations-details", "fa-player-extension")
 LOCK_FOLDERS = {"mods": MODS, "shaderpacks": SHADERS, "resourcepacks": RESOURCEPACKS}
 LOADERS = {"mods": "fabric", "shaderpacks": "iris", "resourcepacks": "minecraft"}
+ARCHITECT_THEMES = {"overrides/mightyarchitect/themes/cattingham_poplar.json"}
+ARCHITECT_PALETTES = {"overrides/mightyarchitect/palettes/poplar_cattingham.json"}
 OVERRIDES = {
     "overrides/config/DistantHorizons.toml",
     "overrides/config/iris.properties",
     "overrides/config/sodium-options.json",
+} | ARCHITECT_THEMES | ARCHITECT_PALETTES
+OVERRIDE_DIRECTORIES = {
+    "overrides", "overrides/config", "overrides/mightyarchitect",
+    "overrides/mightyarchitect/themes", "overrides/mightyarchitect/palettes",
 }
 
 
@@ -166,7 +174,7 @@ def verify_archive(archive_path: Path, pack: dict, locks: list[LockedFile]) -> d
         for entry in archive.infolist():
             if entry.is_dir():
                 directory = safe_path(entry.filename.removesuffix("/"))
-                if directory not in {"overrides", "overrides/config"}:
+                if directory not in OVERRIDE_DIRECTORIES:
                     raise ValueError(f"Unexpected archive directory: {directory}")
             else:
                 safe_path(entry.filename)
@@ -193,6 +201,10 @@ def verify_archive(archive_path: Path, pack: dict, locks: list[LockedFile]) -> d
             or updater.get("enableAutoUpdater") is not False
         ):
             raise ValueError("DH must retain GC diagnostics in logs, avoid the broken popup and keep updates pinned")
+        for theme in sorted(ARCHITECT_THEMES):
+            validate_packed_theme(json.loads(archive.read(theme)))
+        for palette in sorted(ARCHITECT_PALETTES):
+            validate_palette(json.loads(archive.read(palette)), palette)
     return manifest
 
 

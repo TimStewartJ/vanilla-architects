@@ -13,6 +13,14 @@ file = "config/sodium-options.json"
 hash = "535f2f0a496677258abe9d07df591df729a88bcd5f5db5bb54b36063102e10a0"
 
 [[files]]
+file = "mightyarchitect/palettes/poplar_cattingham.json"
+hash = "1af0e4633eacfad406bbce882528450882ef8882cff22e26d58583a36f0cb0ab"
+
+[[files]]
+file = "mightyarchitect/themes/cattingham_poplar.json"
+hash = "e1e6952a7d2624a1d98cb9edf310c47eb7a4ed837cdcd285d12caab051f1995e"
+
+[[files]]
 file = "mods/3dskinlayers.pw.toml"
 hash = "bb194ec7f1affde2fb2d6d052683e96babe72b693e4c3263dfd8245d3941b701"
 metafile = true

@@ -12,9 +12,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from verify_pack import (
-    LockedFile, safe_path, validate_manifest, validate_versions, verify_archive,
-    verify_download,
+    ARCHITECT_PALETTES, ARCHITECT_THEMES, LockedFile, safe_path, validate_manifest,
+    validate_versions, verify_archive, verify_download,
 )
+from architect_theme import pack_theme, validate_packed_theme, validate_palette
 from build_pack import normalize_archive
 
 
@@ -167,6 +168,9 @@ class PackTests(unittest.TestCase):
                     '[common.logging.warning]\nlogGarbageCollectorWarning=true\n'
                     'showGarbageCollectorWarning=false\n',
                 )
+                root = Path(__file__).resolve().parents[1]
+                for name in sorted(ARCHITECT_THEMES | ARCHITECT_PALETTES):
+                    archive.write(root / name.removeprefix("overrides/"), name)
             verify_archive(path, self.pack, [self.lock])
             normalize_archive(path)
             first = path.read_bytes()
@@ -191,6 +195,69 @@ class PackTests(unittest.TestCase):
                 "showGarbageCollectorWarning": False,
             }}},
         })
+
+
+class ArchitectThemeTests(unittest.TestCase):
+    root = Path(__file__).resolve().parents[1]
+
+    def palette(self, name):
+        return {"Palette": {"Name": name, "CLEAR": {"Name": "minecraft:air"}}}
+
+    def design(self, blocks="A"):
+        return {"Size": {"X": 1, "Y": 1, "Z": 1}, "Layers": [{"Blocks": blocks, "Facing": "A"}]}
+
+    def test_shipped_theme_and_palette_are_valid(self):
+        theme = json.loads((self.root / "mightyarchitect/themes/cattingham_poplar.json").read_text("utf-8"))
+        self.assertEqual(theme["Theme"]["Name"], "Cattingham Poplar")
+        self.assertEqual(validate_packed_theme(theme), 184)
+        palette = json.loads((self.root / "mightyarchitect/palettes/poplar_cattingham.json").read_text("utf-8"))
+        validate_palette(palette, "palette")
+        self.assertEqual(palette, theme["Palette"])
+
+    def test_folder_is_packed_with_enum_keys_in_declared_order(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory) / "castle"
+            theme = {"Name": "Castle", "Layers": ["Roofing", "Regular"], "Types": ["WALL", "FLAT_ROOF"]}
+            files = {
+                "theme.json": theme, "palette.json": self.palette("A"),
+                "regular/wall/design_10.json": self.design("10"),
+                "regular/wall/design_2.json": self.design("2"),
+                "regular/wall/design.json": self.design("0"),
+                "roofing/flatroof/design.json": {**self.design("r"), "DataVersion": 1},
+            }
+            for name, content in files.items():
+                (folder / name).parent.mkdir(parents=True, exist_ok=True)
+                (folder / name).write_text(json.dumps(content), "utf-8")
+            packed = pack_theme(folder)
+            self.assertEqual(list(packed["Designs"]), ["Roofing", "Regular"])
+            self.assertEqual(
+                [design["Layers"][0]["Blocks"] for design in packed["Designs"]["Regular"]["WALL"]],
+                ["0", "2", "10"],
+            )
+            self.assertNotIn("DataVersion", packed["Designs"]["Roofing"]["FLAT_ROOF"][0])
+            self.assertNotIn("SecondaryPalette", packed)
+            (folder / "open/wall").mkdir(parents=True)
+            with self.assertRaisesRegex(ValueError, "does not declare layers"):
+                pack_theme(folder)
+
+    def test_invalid_packed_themes_are_rejected(self):
+        valid = {
+            "Theme": {"Name": "T", "Layers": ["Regular"], "Types": ["WALL"]},
+            "Palette": self.palette("T"),
+            "Designs": {"Regular": {"WALL": [self.design()]}},
+        }
+        self.assertEqual(validate_packed_theme(valid), 1)
+        for change, message in (
+            (lambda data: data["Designs"].update(Open={"WALL": [self.design()]}), "undeclared layer"),
+            (lambda data: data["Designs"]["Regular"].update(ROOF=[self.design()]), "undeclared type"),
+            (lambda data: data["Designs"]["Regular"]["WALL"][0]["Size"].update(X=0), "Invalid design"),
+            (lambda data: data["Palette"]["Palette"].pop("Name"), "named"),
+            (lambda data: data.update(Designs={}), "no designs"),
+        ):
+            data = copy.deepcopy(valid)
+            change(data)
+            with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
+                validate_packed_theme(data)
 
 
 if __name__ == "__main__":

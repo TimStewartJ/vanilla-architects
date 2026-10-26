@@ -86,9 +86,18 @@ Animations** to the right, then **Details** and **Player Extension** above it.
 Enable CoffeePBR only with Complementary or Bliss: it adds little without a
 PBR shader and is a 45 MB upstream beta.
 
+### Mighty Architectury theme
+
+The pack ships one extra theme, **Cattingham Poplar** (184 designs, a reworked
+Cattingham Palace), and its **Poplar Cattingham** palette. They appear in the
+theme list and under My Palettes with nothing to enable. The theme is a
+read-only single-file snapshot at `mightyarchitect/themes/cattingham_poplar.json`;
+pack updates replace it, so edit a copy rather than that file. It is
+client-only and not part of the server subset.
+
 **0.4.0 updates The Mighty Architectury to 3.0.0** and adds the entity
 animation, sound and rendering-performance mods above, Double Doors and four
-optional resource packs. Existing pins are unchanged.
+optional resource packs, plus the Cattingham Poplar theme. Existing pins are unchanged.
 Its theme tools are now a blaze rod, lodestones and glazed terracotta; any old
 Mighty Architect marker blocks in a world turn into air.
 Double Doors is a gameplay mod: it works in single-player and on a LAN host
@@ -220,6 +229,19 @@ marks those `both` because of their Modrinth metadata). Run
 `packwiz refresh` and the checks again. Do not hand-edit the generated
 `index.toml` hashes. CI rejects
 stale indexes, wrong targets, missing dependencies and mismatched downloads.
+
+To refresh the shipped theme from an edited theme folder, repack it and copy
+its palette, then run `packwiz refresh` and the checks:
+
+```powershell
+python scripts\architect_theme.py <instance>\mightyarchitect\themes\cattingham_poplar
+```
+
+The script writes the mod's own single-file export format and rejects layer or
+type folders the theme does not declare; CI checks the packed theme's shape.
+CI's client smoke does not open imported themes, so after a theme change, also
+read it once with the mod's own `PackedTheme` loader (a throwaway unit test in
+the Mighty Architectury repository is enough).
 
 The `.mrpack` is reproducible from the committed files: archive order,
 timestamps and permissions are normalized. CI artifacts are available for
