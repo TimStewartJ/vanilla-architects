@@ -93,17 +93,17 @@ jobs:
       - name: Confirm the exact pack versions and active shader
         run: python scripts/verify_runtime.py build/harness
       - name: Upload runtime evidence
-        if: always()
+        # Failure-only and without client-test-runtime/ (vanilla server jar + world, ~100 MB per shader):
+        # private-repo artifacts share the account's small storage quota. The server log is already in the results.
+        if: failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: runtime-evidence-${{ matrix.shader }}
           if-no-files-found: ignore
-          # ~120 MB per shader per run; private-repo artifacts count against the account storage quota.
-          retention-days: 7
+          retention-days: 3
           path: |
             build/harness/build/prod-client-test-results/
             build/harness/build/server-test-results/
-            build/harness/build/client-test-runtime/
             build/harness/fabric/versions/26.3/run-prod-client-test/hs_err_pid*.log
             build/harness/fabric/versions/26.3/run-prod-client-test/crash-reports/
             build/harness/fabric/versions/26.3/run-prod-client-test/config/DistantHorizons.toml

@@ -197,8 +197,10 @@ CI also reuses Mighty Architectury's pinned production-client harness on
 26.3 only, once for each included shader. It loads the exact pack jars into a
 real client, joins a disposable test server, exercises the existing builder
 checks and confirms the selected shader is active. The test companion is never
-included in the pack. Screenshots and logs are kept in the per-shader
-`runtime-evidence-*` CI artifacts. These are compatibility checks, not FPS
+included in the pack. When a shader lane fails, its screenshots and logs are
+kept for 3 days in a per-shader `runtime-evidence-*` CI artifact (passing runs
+upload none, to stay within the private-repo artifact storage quota). These are
+compatibility checks, not FPS
 benchmarks.
 The existing Fabric dedicated-server harness also runs with the dedicated-server
 subset described below. The harness supplies Mighty Architectury itself; the
