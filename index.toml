@@ -14,11 +14,11 @@ hash = "535f2f0a496677258abe9d07df591df729a88bcd5f5db5bb54b36063102e10a0"
 
 [[files]]
 file = "mightyarchitect/palettes/poplar_cattingham.json"
-hash = "1af0e4633eacfad406bbce882528450882ef8882cff22e26d58583a36f0cb0ab"
+hash = "8f0127c3a6e47f74815f3f5c54d15b3cccda1374d04c2ec8ec90ebd0c0034a4f"
 
 [[files]]
 file = "mightyarchitect/themes/cattingham_poplar.json"
-hash = "e1e6952a7d2624a1d98cb9edf310c47eb7a4ed837cdcd285d12caab051f1995e"
+hash = "ceac950534ed7de0e3d8d98c09afbd9b8aeb2e232215917cf72bfb60b7397bbd"
 
 [[files]]
 file = "mods/3dskinlayers.pw.toml"

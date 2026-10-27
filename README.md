@@ -10,7 +10,7 @@ official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.4.0.mrpack` from this repository's
+Download `Vanilla-Architects-0.4.1.mrpack` from this repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 
 - **Prism Launcher:** Add Instance -> Import -> select the `.mrpack`.
@@ -93,6 +93,9 @@ theme list and under My Palettes with nothing to enable. The theme is a
 read-only single-file snapshot at `mightyarchitect/themes/cattingham_poplar.json`;
 pack updates replace it, so edit a copy rather than that file. It is
 client-only and not part of the server subset.
+
+**0.4.1 updates the Cattingham Poplar palette:** floors are now spruce planks
+instead of stripped oak wood. Mods, shaders and resource packs are unchanged.
 
 **0.4.0 updates The Mighty Architectury to 3.0.0** and adds the entity
 animation, sound and rendering-performance mods above, Double Doors and four
@@ -188,7 +191,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.4.0.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.4.1.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
@@ -285,7 +288,7 @@ latest versions. BuildPrint and Sorted remain client-side; survival printing
 still consumes the player's materials. Shader packs, Iris, Sodium, resource packs
 and other client interfaces are not installed on the server.
 
-The command also writes `dist\Vanilla-Architects-0.4.0-server.json` and its SHA-512
+The command also writes `dist\Vanilla-Architects-0.4.1-server.json` and its SHA-512
 file. This manifest records the exact official download URLs, hashes, versions
 and Fabric Loader/Minecraft requirements; it does not redistribute mod binaries.
 CI includes it in the pack artifact and future release uploads.

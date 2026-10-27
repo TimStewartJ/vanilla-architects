@@ -67,10 +67,7 @@
       "Name": "minecraft:stripped_spruce_log"
     },
     "FLOOR": {
-      "Properties": {
-        "axis": "y"
-      },
-      "Name": "minecraft:stripped_oak_wood"
+      "Name": "minecraft:spruce_planks"
     },
     "HEAVY_SECONDARY": {
       "Name": "minecraft:polished_andesite"
