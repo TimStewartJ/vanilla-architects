@@ -10,9 +10,8 @@ official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.4.0.mrpack` from this private repository's
+Download `Vanilla-Architects-0.4.0.mrpack` from this repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
-Sign in to GitHub to access the private release.
 
 - **Prism Launcher:** Add Instance -> Import -> select the `.mrpack`.
 - **Modrinth App:** import the `.mrpack` as a new instance.
@@ -199,7 +198,7 @@ real client, joins a disposable test server, exercises the existing builder
 checks and confirms the selected shader is active. The test companion is never
 included in the pack. When a shader lane fails, its screenshots and logs are
 kept for 3 days in a per-shader `runtime-evidence-*` CI artifact (passing runs
-upload none, to stay within the private-repo artifact storage quota). These are
+upload none, to keep CI artifacts small). These are
 compatibility checks, not FPS
 benchmarks.
 The existing Fabric dedicated-server harness also runs with the dedicated-server
@@ -247,7 +246,7 @@ the Mighty Architectury repository is enough).
 
 The `.mrpack` is reproducible from the committed files: archive order,
 timestamps and permissions are normalized. CI artifacts are available for
-branch builds. Version tags publish a private GitHub Release after validation.
+branch builds. Version tags publish a GitHub Release after validation.
 
 ## Multiplayer
 

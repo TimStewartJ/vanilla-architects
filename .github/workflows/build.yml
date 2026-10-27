@@ -93,8 +93,8 @@ jobs:
       - name: Confirm the exact pack versions and active shader
         run: python scripts/verify_runtime.py build/harness
       - name: Upload runtime evidence
-        # Failure-only and without client-test-runtime/ (vanilla server jar + world, ~100 MB per shader):
-        # private-repo artifacts share the account's small storage quota. The server log is already in the results.
+        # Failure-only and without client-test-runtime/ (vanilla server jar + world, ~100 MB per shader)
+        # to keep artifacts small. The server log is already in the results.
         if: failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
@@ -118,7 +118,7 @@ jobs:
           if-no-files-found: error
 
   release:
-    name: Private GitHub release
+    name: GitHub release
     if: startsWith(github.ref, 'refs/tags/v') && inputs.mightyarchitect_ref == ''
     needs: build
     runs-on: ubuntu-latest
@@ -131,7 +131,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh run download "$GITHUB_RUN_ID" --name Vanilla-Architects --dir dist
-      - name: Publish private release
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
