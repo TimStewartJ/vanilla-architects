@@ -1,12 +1,12 @@
 name = "Vanilla Architects"
 author = "TimStewartJ"
-version = "0.4.1"
+version = "0.5.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "f1137dcbe8f901422d08e8e02dd925ef785713e665c20916365c278b913ee420"
+hash = "0bce87bbb70af5a0a0c499538a4a4a5ad9a058a636e9411b72a3306740cf71fa"
 
 [versions]
 fabric = "0.19.5"
