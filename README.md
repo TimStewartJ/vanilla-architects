@@ -4,13 +4,13 @@ A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
 building and distant landscapes, with small enchanting/XP conveniences.
 No new biomes, dimensions or ores.
 
-Mighty Architectury **3.2.0** adds no blocks or items, so a server or LAN host
+Mighty Architectury **3.2.1** adds no blocks or items, so a server or LAN host
 running it no longer turns away players who don't have it. The pack uses the
 official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.5.0.mrpack` from this repository's
+Download `Vanilla-Architects-0.5.1.mrpack` from this repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 
 - **Prism Launcher:** Add Instance -> Import -> select the `.mrpack`.
@@ -30,7 +30,7 @@ All entries are the Fabric build for Minecraft 26.3.
 
 | Mod | Version | Purpose |
 | --- | --- | --- |
-| The Mighty Architectury | 3.2.0 | Design buildings and export schematics |
+| The Mighty Architectury | 3.2.1 | Design buildings and export schematics |
 | BuildPrint | 0.1.20 | Schematic previews, material lists and survival printing |
 | Sorted | 0.1.27 | Sorting, quick stack and BuildPrint chest-stock integration |
 | Jade | 26.3.5 | Block information |
@@ -93,6 +93,11 @@ theme list and under My Palettes with nothing to enable. The theme is a
 read-only single-file snapshot at `mightyarchitect/themes/cattingham_poplar.json`;
 pack updates replace it, so edit a copy rather than that file. It is
 client-only and not part of the server subset.
+
+**0.5.1 updates The Mighty Architectury to 3.2.1, which fixes saving.** On
+Minecraft 26.3, **Save** wrote a schematic of nothing but air, so BuildPrint
+printed nothing. Builds saved with an earlier pack version cannot be repaired;
+compose them again and save. Nothing else changed.
 
 **0.5.0 updates The Mighty Architectury to 3.2.0.** You can draft from a
 detached camera (spectate, or Freecam's **F4**), turn the blue blueprint view off
@@ -198,7 +203,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.5.0.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.5.1.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
@@ -295,7 +300,7 @@ latest versions. BuildPrint and Sorted remain client-side; survival printing
 still consumes the player's materials. Shader packs, Iris, Sodium, resource packs
 and other client interfaces are not installed on the server.
 
-The command also writes `dist\Vanilla-Architects-0.5.0-server.json` and its SHA-512
+The command also writes `dist\Vanilla-Architects-0.5.1-server.json` and its SHA-512
 file. This manifest records the exact official download URLs, hashes, versions
 and Fabric Loader/Minecraft requirements; it does not redistribute mod binaries.
 CI includes it in the pack artifact and future release uploads.
