@@ -4,13 +4,13 @@ A small Minecraft **26.3 Fabric** client pack for vanilla survival, assisted
 building and distant landscapes, with small enchanting/XP conveniences.
 No new biomes, dimensions or ores.
 
-Mighty Architectury **3.2.1** adds no blocks or items, so a server or LAN host
+Mighty Architectury **3.2.2** adds no blocks or items, so a server or LAN host
 running it no longer turns away players who don't have it. The pack uses the
 official published jar, not a private patched build.
 
 ## Install in Prism or the Modrinth App
 
-Download `Vanilla-Architects-0.5.1.mrpack` from this repository's
+Download `Vanilla-Architects-0.5.2.mrpack` from this repository's
 [Releases](https://github.com/TimStewartJ/vanilla-architects/releases).
 
 - **Prism Launcher:** Add Instance -> Import -> select the `.mrpack`.
@@ -30,9 +30,9 @@ All entries are the Fabric build for Minecraft 26.3.
 
 | Mod | Version | Purpose |
 | --- | --- | --- |
-| The Mighty Architectury | 3.2.1 | Design buildings and export schematics |
-| BuildPrint | 0.1.20 | Schematic previews, material lists and survival printing |
-| Sorted | 0.1.27 | Sorting, quick stack and BuildPrint chest-stock integration |
+| The Mighty Architectury | 3.2.2 | Design buildings and export schematics |
+| BuildPrint | 0.1.40 | Schematic previews, material lists and survival printing |
+| Sorted | 0.1.43 | Sorting, quick stack and BuildPrint chest-stock integration |
 | Jade | 26.3.5 | Block information |
 | AppleSkin | 3.0.10 | Hunger and saturation information |
 | Mouse Tweaks | 2.31 | Easier stack movement |
@@ -51,7 +51,7 @@ All entries are the Fabric build for Minecraft 26.3.
 | Distant Horizons | 3.3.4 | Distant terrain LODs; official upstream release |
 | Iris | 1.11.7 | Shader support; pinned to its required Sodium release |
 | Fabric API | 0.163.0 | Shared Fabric APIs |
-| YetAnotherConfigLib (YACL) | 3.9.7 | BuildPrint and Sorted configuration |
+| YetAnotherConfigLib (YACL) | 3.9.7 | Configuration library; since 0.5.2 no pinned mod requires it |
 | Mod Menu | 21.0.0 | Access mod configuration |
 | Text Placeholder API | 3.2.0 | Mod Menu dependency |
 | Cloth Config API | 26.3.159 | Settings support for AppleSkin, Falling Leaves and Tax Free Levels |
@@ -93,6 +93,13 @@ theme list and under My Palettes with nothing to enable. The theme is a
 read-only single-file snapshot at `mightyarchitect/themes/cattingham_poplar.json`;
 pack updates replace it, so edit a copy rather than that file. It is
 client-only and not part of the server subset.
+
+**0.5.2 updates The Mighty Architectury to 3.2.2, BuildPrint to 0.1.40 and Sorted to 0.1.43.**
+The Mighty Architectury's preview of a large build no longer drags the frame
+rate down, most of all with shaders on. BuildPrint 0.1.40 brings twenty
+releases of fixes, including several for frame rate on large builds, a ghost
+draw-distance setting under Performance, cheaper wrong-block marks, an
+excavator and much more. Sorted moves with it because both share the same VoxelSprout libraries.
 
 **0.5.1 updates The Mighty Architectury to 3.2.1, which fixes saving.** On
 Minecraft 26.3, **Save** wrote a schematic of nothing but air, so BuildPrint
@@ -203,7 +210,7 @@ python -m unittest discover -s tests -v
 python scripts\build_pack.py --packwiz C:\path\to\packwiz.exe --download
 ```
 
-The output is `dist\Vanilla-Architects-0.5.1.mrpack` plus a SHA-512 file.
+The output is `dist\Vanilla-Architects-0.5.2.mrpack` plus a SHA-512 file.
 `--download` verifies every referenced binary, upstream version compatibility,
 required dependencies, Fabric metadata and the shader archives.
 
@@ -300,7 +307,7 @@ latest versions. BuildPrint and Sorted remain client-side; survival printing
 still consumes the player's materials. Shader packs, Iris, Sodium, resource packs
 and other client interfaces are not installed on the server.
 
-The command also writes `dist\Vanilla-Architects-0.5.1-server.json` and its SHA-512
+The command also writes `dist\Vanilla-Architects-0.5.2-server.json` and its SHA-512
 file. This manifest records the exact official download URLs, hashes, versions
 and Fabric Loader/Minecraft requirements; it does not redistribute mod binaries.
 CI includes it in the pack artifact and future release uploads.

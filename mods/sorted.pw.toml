@@ -1,13 +1,13 @@
 name = "Sorted - Inventory & Chest Sorting, Quick Stack"
-filename = "sorted-fabric-0.1.27+26.3.jar"
+filename = "sorted-fabric-0.1.43+26.3.jar"
 side = "client"
 
 [download]
-url = "https://cdn.modrinth.com/data/vtsGVHan/versions/uiJa1pMM/sorted-fabric-0.1.27%2B26.3.jar"
+url = "https://cdn.modrinth.com/data/vtsGVHan/versions/xd8k8AwR/sorted-fabric-0.1.43%2B26.3.jar"
 hash-format = "sha512"
-hash = "bfe52d1d0831044f79f900fd4ef1025baf773527ee7b66f3def758b0efdd705d14c9576dd6eb6a00e8fe92029a66c8fe1a36f865463fec8268e976b5b4654fb9"
+hash = "bc2fc8a28ea84da28513a11045c7725962bea03155bf38454e272f486b81f43d2976f4a537f03644920c65a4fc83d1f3f3760c8ee32c23df8f06b2df2580ee4d"
 
 [update]
 [update.modrinth]
 mod-id = "vtsGVHan"
-version = "uiJa1pMM"
+version = "xd8k8AwR"

@@ -32,7 +32,7 @@ metafile = true
 
 [[files]]
 file = "mods/buildprint.pw.toml"
-hash = "fd915f41cbd3c949e539760d418685ccbc06b6a9fcbec5521e5e19e6353e1230"
+hash = "14e7caa3f32ea5348bc08d4b50e1a8deb7fc71cc75f22079986e071ea4b8a6a5"
 metafile = true
 
 [[files]]
@@ -162,7 +162,7 @@ metafile = true
 
 [[files]]
 file = "mods/sorted.pw.toml"
-hash = "610c373f1f28bca69201f17fed67568f1c9676c9e19ee5c660f8411a142bbddd"
+hash = "c31085a8f5951832543856233c02f0aab122f1aa7d521bd0448586f4f32168fb"
 metafile = true
 
 [[files]]

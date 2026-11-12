@@ -1,13 +1,13 @@
 name = "BuildPrint - Schematics & Printer (Litematica Alternative)"
-filename = "buildprint-fabric-0.1.20+26.3.jar"
+filename = "buildprint-fabric-0.1.40+26.3.jar"
 side = "client"
 
 [download]
-url = "https://cdn.modrinth.com/data/pa8th8fX/versions/FjcVU607/buildprint-fabric-0.1.20%2B26.3.jar"
+url = "https://cdn.modrinth.com/data/pa8th8fX/versions/aF2rt5KD/buildprint-fabric-0.1.40%2B26.3.jar"
 hash-format = "sha512"
-hash = "e3d8528f662da3b0b7b9eba5a1503021ae085d762997b98a310af3ac5cedc010a1c098409e1454e4bee120b4493208ed617af5f9a1d3b39764538a7d1d29d63f"
+hash = "a3643fdae5fa7029a4b7d44f374256a82e6c6f2056d5f501815bc830d1c424f98b553c7278c505f31724376021b209e61ed7e7b7f7e309a9ede0339d4cc677cc"
 
 [update]
 [update.modrinth]
 mod-id = "pa8th8fX"
-version = "FjcVU607"
+version = "aF2rt5KD"
